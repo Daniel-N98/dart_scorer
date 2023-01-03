@@ -5,7 +5,14 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAxAQ4NHWyEaU6-VSGQyRwKH2RBaTCYsTg",
@@ -17,7 +24,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export function registerUser(userEmail, userPassword, displayName) {
   if (!validateDisplayName(displayName)) {
@@ -90,8 +97,22 @@ export async function gameExistsWithCode(joinCode) {
 
   querySnapshot.forEach((doc) => {
     if (doc.data().join_code === Number(joinCode)) {
-      exists = true;
+      exists = doc.id;
     }
   });
   return exists;
+}
+
+export default async function updateGameDocument(documentId) {
+  const docRef = doc(db, "games", documentId);
+  const user = getAuth().currentUser;
+  await updateDoc(docRef, {
+    p2: {
+      uid: user.uid,
+      score: 501,
+      sets: 0,
+      legs: 0,
+    },
+    status: "in-progress",
+  });
 }

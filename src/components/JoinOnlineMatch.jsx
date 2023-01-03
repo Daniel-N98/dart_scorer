@@ -1,4 +1,4 @@
-import { gameExistsWithCode } from "../firebase.js";
+import updateGameDocument, { gameExistsWithCode } from "../firebase.js";
 
 export default function JoinOnlineMatch() {
   const handleClick = async (e) => {
@@ -6,8 +6,12 @@ export default function JoinOnlineMatch() {
     const formElements = document.getElementById("join-code-form").elements;
     const code = formElements[0].value;
     const gameExists = await gameExistsWithCode(code);
-
-    console.log(`Game exists: ${gameExists}`);
+    if (gameExists) {
+      updateGameDocument(gameExists);
+      console.log(`Game exists id: ${gameExists}`);
+    } else {
+      console.log(`Game does not exist`);
+    }
   };
 
   return (
