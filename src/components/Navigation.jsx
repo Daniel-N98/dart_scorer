@@ -6,6 +6,9 @@ export default function Navigation() {
       <Link to="/" className="nav-link">
         Home
       </Link>
+      <Link to="/games" className="nav-link">
+        Games
+      </Link>
     </section>
   );
 }
