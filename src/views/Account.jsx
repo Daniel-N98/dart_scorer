@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Register from "../components/Register.jsx";
 import SignIn from "../components/SignIn.jsx";
 import Logout from "../components/Logout";
+import Profile from "../components/Profile.jsx";
 
 export default function Account() {
   const [user, loading] = useAuthState(getAuth());
@@ -13,6 +14,7 @@ export default function Account() {
       {user ? (
         <div>
           <h2>Profile</h2>
+          <Profile />
           <Logout />
         </div>
       ) : (

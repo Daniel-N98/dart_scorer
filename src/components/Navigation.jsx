@@ -14,7 +14,7 @@ export default function Navigation() {
         Games
       </Link>
       <Link to="/account" className="nav-link">
-        {user ? user.displayName : "Register/Sign-in"}
+        {user ? "Account" : "Register/Sign-in"}
       </Link>
     </section>
   );
