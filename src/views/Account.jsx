@@ -7,7 +7,9 @@ import Profile from "../components/Profile.jsx";
 
 export default function Account() {
   const [user, loading] = useAuthState(getAuth());
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
     <section id="account-page">
