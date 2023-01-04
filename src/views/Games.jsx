@@ -1,12 +1,10 @@
-import CreateOnlineMatch from "../components/CreateOnlineMatch";
-import JoinOnlineMatch from "../components/JoinOnlineMatch";
+import GameTypeList from "../components/GameTypeList.jsx";
 
 export default function Games() {
   return (
     <div>
       <h1>Games page</h1>
-      <CreateOnlineMatch />
-      <JoinOnlineMatch />
+      <GameTypeList />
     </div>
   );
 }
