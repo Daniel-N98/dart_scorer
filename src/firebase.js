@@ -13,6 +13,7 @@ import {
   updateDoc,
   doc,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -156,4 +157,26 @@ export async function updatePlayerScore(score, documentId) {
     },
     { merge: true }
   );
+}
+
+export async function updatePlayerDocument(documentId, updateObj) {
+  const docRef = doc(db, "games", documentId);
+
+  await setDoc(
+    docRef,
+    {
+      ...updateObj,
+    },
+    { merge: true }
+  );
+}
+
+export async function deleteGameDocument(documentID) {
+  const docRef = doc(db, "games", documentID);
+  try {
+    await deleteDoc(docRef);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }

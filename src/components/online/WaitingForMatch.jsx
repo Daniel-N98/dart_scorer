@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { deleteDoc, doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db, deleteGameDocument } from "../../firebase";
 import { useEffect } from "react";
 
 export default function WaitingForMatch() {
@@ -16,9 +16,7 @@ export default function WaitingForMatch() {
   };
 
   const handleClick = async () => {
-    const docRef = doc(db, "games", gameID);
-    await deleteDoc(docRef);
-    document.location.href = "/games/online";
+    deleteGameDocument(gameID);
   };
 
   useEffect(() => {

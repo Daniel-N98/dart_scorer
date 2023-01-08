@@ -13,6 +13,11 @@ export default function OnlineX01Game() {
   useEffect(() => {
     setLoading(true);
     const unsub = onSnapshot(doc(db, "games", gameID), (doc) => {
+      if (!doc.data()) {
+        document.location.href = "/games/online";
+        unsub();
+        return;
+      }
       setGameRef(doc.data());
       setLoading(false);
     });
