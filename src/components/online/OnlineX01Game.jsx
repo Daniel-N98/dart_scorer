@@ -1,6 +1,9 @@
+import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMatchFromId } from "../../firebase";
+import { db } from "../../firebase";
+import ScoreInput from "../X01Game/ScoreInput";
+import ScoreScreen from "../X01Game/ScoreScreen";
 
 export default function OnlineX01Game() {
   const { gameID } = useParams();
@@ -9,12 +12,10 @@ export default function OnlineX01Game() {
 
   useEffect(() => {
     setLoading(true);
-    async function getGameRef() {
-      const gameRef = await getMatchFromId(gameID);
-      setGameRef(gameRef);
+    const unsub = onSnapshot(doc(db, "games", gameID), (doc) => {
+      setGameRef(doc.data());
       setLoading(false);
-    }
-    getGameRef();
+    });
   }, [gameID]);
 
   if (loading) {
@@ -25,24 +26,13 @@ export default function OnlineX01Game() {
     <div>
       {gameRef ? (
         <div>
-          <h2>Joined game: {gameID}</h2>
-          <h3>Players:</h3>
-          <ul>
-            <li>P1: {gameRef.p1.uid}</li>
-            <li>P2: {gameRef.p2.uid}</li>
-          </ul>
-          <h3>Settings:</h3>
-          <ul>
-            <li>Starting Score: {gameRef.start_score}</li>
-            <li>Sets: {gameRef.sets}</li>
-            <li>Legs: {gameRef.legs}</li>
-          </ul>
-          <p>Status: {gameRef.status}</p>
-          <p>Join Code: {gameRef.join_code}</p>
+          <ScoreScreen player={gameRef.p1} />
+          <ScoreScreen player={gameRef.p2} />
+          <ScoreInput gameRef={gameRef} />
         </div>
       ) : (
         <h2>Loading</h2>
-      )}{" "}
+      )}
     </div>
   );
 }

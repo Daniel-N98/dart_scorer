@@ -12,6 +12,7 @@ import {
   getDocs,
   updateDoc,
   doc,
+  setDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -69,12 +70,19 @@ export async function createOnlineGame({
   const user = getAuth().currentUser;
   try {
     const docRef = await addDoc(collection(db, "games"), {
-      p1: { uid: user.uid, score: start_score, sets: 0, legs: 0 },
+      p1: {
+        uid: user.uid,
+        name: user.displayName,
+        score: start_score,
+        sets: 0,
+        legs: 0,
+      },
       start_score,
       sets,
       legs,
       join_code: (Math.random() + 1).toString(36).substring(7),
       status: "pending",
+      turn: "p1",
     });
     console.log("Document writted with ID: ", docRef.id);
     return docRef.id;
@@ -114,6 +122,7 @@ export default async function updateGameDocument(documentId) {
   await updateDoc(docRef, {
     p2: {
       uid: user.uid,
+      name: user.displayName,
       score: start_score,
       sets: 0,
       legs: 0,
@@ -130,4 +139,21 @@ export async function getMatchFromId(matchId) {
   });
 
   return document;
+}
+
+export async function updatePlayerScore(score, documentId) {
+  const docRef = doc(db, "games", documentId);
+  const matchRef = await getMatchFromId(documentId);
+  const turn = matchRef.turn;
+
+  await setDoc(
+    docRef,
+    {
+      [turn]: {
+        score,
+      },
+      turn: turn === "p1" ? "p2" : "p1",
+    },
+    { merge: true }
+  );
 }
