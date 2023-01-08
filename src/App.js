@@ -7,6 +7,7 @@ import Account from "./views/Account";
 import OnlineMatch from "./components/OnlineMatch";
 import OnlineX01Game from "./components/OnlineX01Game";
 import WaitingForMatch from "./components/WaitingForMatch";
+import X01GameSettings from "./components/X01GameSettings";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/games" element={<Games />} />
         <Route path="/games/online" element={<OnlineMatch />} />
         <Route path="/games/online/:gameID" element={<OnlineX01Game />} />
+        <Route path="/games/online/setup" element={<X01GameSettings />} />
         <Route
           path="/games/online/:gameID/waiting"
           element={<WaitingForMatch />}
