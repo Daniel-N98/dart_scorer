@@ -82,5 +82,3 @@ export default function ScoreInput({ gameRef }) {
     </section>
   );
 }
-
-function checkGameStats() {}
