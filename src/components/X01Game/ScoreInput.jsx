@@ -37,10 +37,13 @@ export default function ScoreInput({ gameRef }) {
 
     if (input === "Submit") {
       const { sets: pSets, legs: pLegs, score: pScore, name } = gameRef[turn];
-      const typedScoreTemp = typedScore;
+      const remainingScore = pScore - typedScore;
       setTypedScore("");
+      if (remainingScore < 0 || remainingScore === 1) {
+        return;
+      }
       // Handle round win logic
-      if (pScore - typedScoreTemp === 0) {
+      if (remainingScore === 0) {
         const updateObj = {
           p1: { score: gameRef.start_score },
           p2: { score: gameRef.start_score },
@@ -59,9 +62,10 @@ export default function ScoreInput({ gameRef }) {
         } else {
           updateObj[turn].legs = pLegs + 1;
         }
+        updateObj.turn = turn === "p1" ? "p2" : "p1";
         updatePlayerDocument(gameID, updateObj);
       } else {
-        await updatePlayerScore(gameRef[turn].score - typedScoreTemp, gameID);
+        await updatePlayerScore(remainingScore, gameID);
       }
     }
   };
