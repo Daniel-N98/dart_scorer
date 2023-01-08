@@ -9,7 +9,8 @@ export default function CreateOnlineMatch() {
     e.preventDefault();
     const matchExists = await gameExists(user);
     if (!matchExists) {
-      createOnlineGame();
+      const gameID = await createOnlineGame();
+      document.location.href = `/games/online/${gameID}/waiting`;
     } else {
       alert("Match already exists");
     }

@@ -73,6 +73,7 @@ export async function createOnlineGame() {
       status: "pending",
     });
     console.log("Document writted with ID: ", docRef.id);
+    return docRef.id;
   } catch (error) {
     console.error("Error adding document: ", error);
   }
@@ -83,7 +84,6 @@ export async function gameExists(user) {
   let exists = false;
 
   querySnapshot.forEach((doc) => {
-    console.log(doc.data());
     if (doc.data().p1 && doc.data().p1.uid === user.uid) {
       exists = true;
     }
@@ -115,4 +115,14 @@ export default async function updateGameDocument(documentId) {
     },
     status: "in-progress",
   });
+}
+
+export async function getMatchFromId(matchId) {
+  const querySnapshot = await getDocs(collection(db, "games"));
+  let document = null;
+  querySnapshot.forEach((doc) => {
+    if (doc.id === matchId) document = doc.data();
+  });
+
+  return document;
 }
