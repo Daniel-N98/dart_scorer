@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./views/Home";
-import Navigation from "./components/Navigation";
 import Games from "./views/Games";
 import Account from "./views/Account";
-import OnlineMatch from "./components/OnlineMatch";
-import OnlineX01Game from "./components/OnlineX01Game";
-import WaitingForMatch from "./components/WaitingForMatch";
-import X01GameSettings from "./components/X01GameSettings";
+import Navigation from "./components/Navigation.jsx";
+import OnlineMatch from "./components/online/OnlineMatch.jsx";
+import OnlineX01Game from "./components/online/OnlineX01Game.jsx";
+import WaitingForMatch from "./components/online/WaitingForMatch.jsx";
+import X01GameSettings from "./components/online/X01GameSettings.jsx";
 
 function App() {
   return (

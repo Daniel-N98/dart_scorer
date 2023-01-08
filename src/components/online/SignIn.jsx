@@ -1,4 +1,4 @@
-import { signInUser } from "../firebase";
+import { signInUser } from "../../firebase";
 
 export default function SignIn() {
   const handleClick = (e) => {

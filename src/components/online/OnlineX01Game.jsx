@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMatchFromId } from "../firebase";
+import { getMatchFromId } from "../../firebase";
 
 export default function OnlineX01Game() {
   const { gameID } = useParams();
