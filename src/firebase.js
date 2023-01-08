@@ -61,15 +61,19 @@ function validateDisplayName(displayName) {
   return true;
 }
 
-export async function createOnlineGame() {
+export async function createOnlineGame({
+  start_score = 301,
+  sets = 3,
+  legs = 3,
+}) {
   const user = getAuth().currentUser;
   try {
     const docRef = await addDoc(collection(db, "games"), {
-      p1: { uid: user.uid, score: 501, sets: 0, legs: 0 },
-      start_score: 501,
-      sets: 2,
-      legs: 3,
-      join_code: 1234,
+      p1: { uid: user.uid, score: start_score, sets: 0, legs: 0 },
+      start_score,
+      sets,
+      legs,
+      join_code: (Math.random() + 1).toString(36).substring(7),
       status: "pending",
     });
     console.log("Document writted with ID: ", docRef.id);
@@ -85,7 +89,7 @@ export async function gameExists(user) {
 
   querySnapshot.forEach((doc) => {
     if (doc.data().p1 && doc.data().p1.uid === user.uid) {
-      exists = true;
+      exists = doc.id;
     }
   });
   return exists;
@@ -96,7 +100,7 @@ export async function gameExistsWithCode(joinCode) {
   let exists = false;
 
   querySnapshot.forEach((doc) => {
-    if (doc.data().join_code === Number(joinCode)) {
+    if (doc.data().join_code === joinCode) {
       exists = doc.id;
     }
   });
@@ -105,11 +109,12 @@ export async function gameExistsWithCode(joinCode) {
 
 export default async function updateGameDocument(documentId) {
   const docRef = doc(db, "games", documentId);
+  const { start_score } = await getMatchFromId(documentId);
   const user = getAuth().currentUser;
   await updateDoc(docRef, {
     p2: {
       uid: user.uid,
-      score: 501,
+      score: start_score,
       sets: 0,
       legs: 0,
     },
