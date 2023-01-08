@@ -1,9 +1,9 @@
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Register from "../components/Register.jsx";
-import SignIn from "../components/SignIn.jsx";
-import Logout from "../components/Logout";
-import Profile from "../components/Profile.jsx";
+import Register from "../components/online/Register.jsx";
+import SignIn from "../components/online/SignIn.jsx";
+import Logout from "../components/online/Logout";
+import Profile from "../components/online/Profile.jsx";
 
 export default function Account() {
   const [user, loading] = useAuthState(getAuth());

@@ -1,4 +1,4 @@
-import { registerUser } from "../firebase";
+import { registerUser } from "../../firebase";
 
 export default function Register() {
   const handleClick = (e) => {
