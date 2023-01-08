@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
 import ScoreInput from "../X01Game/ScoreInput";
 import ScoreScreen from "../X01Game/ScoreScreen";
+import "../styles/x01Game.css";
 
 export default function OnlineX01Game() {
   const { gameID } = useParams();
@@ -30,11 +31,13 @@ export default function OnlineX01Game() {
   return (
     <div>
       {gameRef ? (
-        <div>
-          <ScoreScreen player={gameRef.p1} />
-          <ScoreScreen player={gameRef.p2} />
+        <section id="online-game-screen">
+          <div id="online-game-score-screens">
+            <ScoreScreen player={gameRef.p1} />
+            <ScoreScreen player={gameRef.p2} />
+          </div>
           <ScoreInput gameRef={gameRef} />
-        </div>
+        </section>
       ) : (
         <h2>Loading</h2>
       )}

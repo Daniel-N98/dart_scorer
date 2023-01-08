@@ -67,18 +67,19 @@ export default function ScoreInput({ gameRef }) {
   };
 
   return (
-    <section id="scorer-input">
-      <h3>{typedScore}</h3>
-
-      {numbers.map((number) => (
-        <button
-          className="number-grid-input"
-          key={number}
-          onClick={() => updateScore(number)}
-        >
-          {number}
-        </button>
-      ))}
+    <section id="scorer-input-section">
+      <h3 id="typed-score">{typedScore}</h3>
+      <div id="scorer-input">
+        {numbers.map((number) => (
+          <button
+            className="number-grid-input"
+            key={number}
+            onClick={() => updateScore(number)}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
     </section>
   );
 }

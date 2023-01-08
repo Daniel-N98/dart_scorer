@@ -16,3 +16,19 @@
 .App-link {
   color: #61dafb;
 }
+
+.nav-link {
+  display: block;
+  width: 180px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  font-weight: 700;
+  color: rgb(100, 98, 214);
+  letter-spacing: 0.5px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}

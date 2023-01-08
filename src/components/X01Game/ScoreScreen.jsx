@@ -1,10 +1,16 @@
 export default function ScoreScreen({ player }) {
   return (
-    <div>
+    <section id="score-screen-section">
       <h3>{player.name}</h3>
       <p>Score: {player.score}</p>
-      <p>Sets: {player.sets}</p>
-      <p>Legs: {player.legs}</p>
-    </div>
+      <div>
+        <p>
+          Sets: <span>{player.sets}</span>
+        </p>
+        <p>
+          Legs: <span>{player.legs}</span>
+        </p>
+      </div>
+    </section>
   );
 }
