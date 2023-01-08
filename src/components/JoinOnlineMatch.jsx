@@ -5,12 +5,12 @@ export default function JoinOnlineMatch() {
     e.preventDefault();
     const formElements = document.getElementById("join-code-form").elements;
     const code = formElements[0].value;
-    const gameExists = await gameExistsWithCode(code);
-    if (gameExists) {
-      updateGameDocument(gameExists);
-      console.log(`Game exists id: ${gameExists}`);
+    const gameID = await gameExistsWithCode(code);
+    if (gameID) {
+      await updateGameDocument(gameID);
+      document.location.href = `/games/online/${gameID}`;
     } else {
-      console.log(`Game does not exist`);
+      console.error(`Game does not exist`);
     }
   };
 
