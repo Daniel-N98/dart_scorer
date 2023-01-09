@@ -6,7 +6,7 @@ import CreateOnlineMatch from "./CreateOnlineMatch";
 import JoinOnlineMatch from "./JoinOnlineMatch";
 
 export default function OnlineMatch() {
-  const [user] = useAuthState(getAuth());
+  const [user, loading] = useAuthState(getAuth());
 
   useEffect(() => {
     async function checkForMatch() {
@@ -18,11 +18,19 @@ export default function OnlineMatch() {
     checkForMatch();
   });
 
+  if (loading) return <h2>Loading</h2>;
+
   return (
     <section id="online-match">
       <h1>Online games</h1>
-      <CreateOnlineMatch />
-      <JoinOnlineMatch />
+      {user ? (
+        <div>
+          <CreateOnlineMatch />
+          <JoinOnlineMatch />
+        </div>
+      ) : (
+        <h3>You must be signed in to play online matches.</h3>
+      )}
     </section>
   );
 }
