@@ -1,7 +1,7 @@
-import { deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { db, deleteGameDocument } from "../../firebase";
+import { db } from "../../firebase";
 import ScoreInput from "../X01Game/ScoreInput";
 import ScoreScreen from "../X01Game/ScoreScreen";
 import "../styles/x01Game.css";
@@ -24,14 +24,7 @@ export default function OnlineX01Game() {
     });
   }, [gameID]);
 
-  const handleLeaveGame = async (e) => {
-    e.preventDefault();
-    document.location.href = "/";
-  };
-
-  if (loading) {
-    return <h2>Loading</h2>;
-  }
+  if (loading) return <h2>Loading</h2>;
 
   return (
     <div>
