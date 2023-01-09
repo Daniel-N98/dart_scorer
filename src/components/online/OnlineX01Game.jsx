@@ -36,14 +36,11 @@ export default function OnlineX01Game() {
   return (
     <div>
       {gameRef ? (
-        <section id="online-game-screen">
-          <button onClick={(e) => handleLeaveGame(e)}>Leave game</button>
-          <div id="online-game-score-screens">
-            <ScoreScreen player={gameRef.p1} />
-            <ScoreScreen player={gameRef.p2} />
-          </div>
+        <div>
+          <ScoreScreen gameRef={gameRef} player="p1" />
+          <ScoreScreen gameRef={gameRef} player="p2" />
           <ScoreInput gameRef={gameRef} />
-        </section>
+        </div>
       ) : (
         <h2>Loading</h2>
       )}
