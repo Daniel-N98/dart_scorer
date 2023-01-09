@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
 import {
+  addMatchToCompletedGames,
   deleteGameDocument,
   updatePlayerDocument,
   updatePlayerScore,
@@ -12,7 +13,6 @@ const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, "Clear", 0, "Submit"];
 
 export default function ScoreInput({ gameRef }) {
   const [user] = useAuthState(getAuth());
-
   const [typedScore, setTypedScore] = useState("");
   const { gameID } = useParams();
   const { sets, legs, turn } = gameRef;
@@ -51,8 +51,9 @@ export default function ScoreInput({ gameRef }) {
         if (pLegs + 1 === legs) {
           if (pSets + 1 === sets) {
             alert(`Game has been won! by ${name}`);
-            deleteGameDocument(gameID);
-            document.location.href = "/games/online";
+            await addMatchToCompletedGames(gameID);
+            await deleteGameDocument(gameID);
+            document.location.href = "/";
             return;
           } else {
             updateObj[turn].sets = pSets + 1;
