@@ -51,6 +51,11 @@ export default function ScoreInput({ gameRef }) {
         if (pLegs + 1 === legs) {
           if (pSets + 1 === sets) {
             alert(`Game has been won! by ${name}`);
+            await updatePlayerDocument(gameID, {
+              gameID,
+              status: "finished",
+              winner: name,
+            });
             await addMatchToCompletedGames(gameID);
             await deleteGameDocument(gameID);
             document.location.href = "/";
