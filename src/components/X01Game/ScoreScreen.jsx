@@ -1,16 +1,18 @@
-export default function ScoreScreen({ player }) {
+export default function ScoreScreen({ gameRef, player }) {
+  const playerObj = gameRef[player];
+
   return (
-    <section id="score-screen-section">
-      <h3>{player.name}</h3>
-      <p>Score: {player.score}</p>
-      <div>
-        <p>
-          Sets: <span>{player.sets}</span>
-        </p>
-        <p>
-          Legs: <span>{player.legs}</span>
-        </p>
-      </div>
-    </section>
+    <div>
+      <h3
+        style={{
+          color: gameRef[gameRef.turn].uid === playerObj.uid ? "red" : "black",
+        }}
+      >
+        {playerObj.name}
+      </h3>
+      <p>Score: {playerObj.score}</p>
+      <p>Sets: {playerObj.sets}</p>
+      <p>Legs: {playerObj.legs}</p>
+    </div>
   );
 }
