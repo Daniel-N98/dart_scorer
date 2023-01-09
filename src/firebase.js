@@ -180,3 +180,15 @@ export async function deleteGameDocument(documentID) {
     return false;
   }
 }
+
+export async function addMatchToCompletedGames(documentID) {
+  const matchRef = await getMatchFromId(documentID);
+  try {
+    const docRef = await addDoc(collection(db, "completed_games"), {
+      ...matchRef,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+}
