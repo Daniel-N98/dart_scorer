@@ -8,6 +8,7 @@ import OnlineMatch from "./components/online/OnlineMatch.jsx";
 import OnlineX01Game from "./components/online/OnlineX01Game.jsx";
 import WaitingForMatch from "./components/online/WaitingForMatch.jsx";
 import X01GameSettings from "./components/online/X01GameSettings.jsx";
+import EndGameScreen from "./components/X01Game/EndGameScreen";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
           element={<WaitingForMatch />}
         />
         <Route path="/account" element={<Account />} />
+        <Route
+          path="/games/online/:gameID/finished"
+          element={<EndGameScreen />}
+        />
       </Routes>
     </div>
   );

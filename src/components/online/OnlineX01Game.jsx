@@ -15,7 +15,7 @@ export default function OnlineX01Game() {
     setLoading(true);
     const unsub = onSnapshot(doc(db, "games", gameID), (doc) => {
       if (!doc.data()) {
-        document.location.href = "/";
+        document.location.href = `/games/online/${gameID}/finished`;
         unsub();
         return;
       }
