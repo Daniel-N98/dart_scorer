@@ -77,6 +77,7 @@ export async function createOnlineGame({
         score: start_score,
         sets: 0,
         legs: 0,
+        dart_scores: [],
       },
       start_score,
       sets,
@@ -127,6 +128,7 @@ export default async function updateGameDocument(documentId) {
       score: start_score,
       sets: 0,
       legs: 0,
+      dart_scores: [],
     },
     status: "in-progress",
   });
@@ -142,16 +144,28 @@ export async function getMatchFromId(matchId) {
   return document;
 }
 
-export async function updatePlayerScore(score, documentId) {
+export async function getFinishedMatch(matchId) {
+  const querySnapshot = await getDocs(collection(db, "completed_games"));
+  let document = null;
+  querySnapshot.forEach((doc) => {
+    if (doc.data().gameID === matchId) document = doc.data();
+  });
+
+  return document;
+}
+
+export async function updatePlayerScore(score, documentId, thrownScore) {
   const docRef = doc(db, "games", documentId);
   const matchRef = await getMatchFromId(documentId);
   const turn = matchRef.turn;
+  const { dart_scores } = matchRef[turn];
 
   await setDoc(
     docRef,
     {
       [turn]: {
         score,
+        dart_scores: dart_scores.concat(thrownScore),
       },
       turn: turn === "p1" ? "p2" : "p1",
     },

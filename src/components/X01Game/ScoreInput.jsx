@@ -18,6 +18,7 @@ export default function ScoreInput({ gameRef }) {
   const { sets, legs, turn } = gameRef;
 
   const updateScore = async (input) => {
+    const tempTypedScore = typedScore;
     if (gameRef[turn].uid !== user.uid) {
       return;
     }
@@ -44,34 +45,34 @@ export default function ScoreInput({ gameRef }) {
       }
       // Handle round win logic
       if (remainingScore === 0) {
+        await updatePlayerScore(remainingScore, gameID, tempTypedScore);
         const updateObj = {
           p1: { score: gameRef.start_score },
           p2: { score: gameRef.start_score },
         };
         if (pLegs + 1 === legs) {
           if (pSets + 1 === sets) {
-            alert(`Game has been won! by ${name}`);
-            await updatePlayerDocument(gameID, {
-              gameID,
-              status: "finished",
-              winner: name,
-            });
-            await addMatchToCompletedGames(gameID);
-            await deleteGameDocument(gameID);
-            document.location.href = "/";
-            return;
-          } else {
-            updateObj[turn].sets = pSets + 1;
-            updateObj[turn].legs = 0;
-            updateObj[turn === "p1" ? "p2" : "p1"].legs = 0;
+            updateObj.gameID = gameID;
+            updateObj.status = "finished";
+            updateObj.winner = name;
           }
+          updateObj[turn].sets = pSets + 1;
+          updateObj[turn].legs = 0;
+          updateObj[turn === "p1" ? "p2" : "p1"].legs = 0;
         } else {
           updateObj[turn].legs = pLegs + 1;
         }
         updateObj.turn = turn === "p1" ? "p2" : "p1";
-        updatePlayerDocument(gameID, updateObj);
+        await updatePlayerDocument(gameID, updateObj);
+        if (updateObj.status === "finished") {
+          alert(`Game has been won! by ${name}`);
+          await addMatchToCompletedGames(gameID);
+          await deleteGameDocument(gameID);
+          document.location.href = `/games/online/${gameID}/finished`;
+          return;
+        }
       } else {
-        await updatePlayerScore(remainingScore, gameID);
+        await updatePlayerScore(remainingScore, gameID, tempTypedScore);
       }
     }
   };
