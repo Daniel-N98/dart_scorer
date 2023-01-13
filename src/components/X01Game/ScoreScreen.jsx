@@ -2,7 +2,6 @@ import checkouts from "../../checkouts.js";
 
 export default function ScoreScreen({ gameRef, player }) {
   const playerObj = gameRef[player];
-  console.log(checkouts[Number(playerObj.score)]);
 
   return (
     <div>
