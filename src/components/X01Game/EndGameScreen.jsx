@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getFinishedMatch } from "../../firebase";
+import PlayerEndGameResults from "./PlayerEndGameResults";
 
 export default function EndGameScreen() {
   const [gameRef, setGameRef] = useState();
   const { gameID } = useParams();
 
+  const calculateAverage = (scores) => {
+    return parseFloat(
+      scores.reduce((a, b) => Number(a) + Number(b)) / scores.length
+    ).toFixed(2);
+  };
+
   useEffect(() => {
     async function fetchGameRef() {
       const match = await getFinishedMatch(gameID, "completed_games");
+      match.p1.avg = calculateAverage(match.p1.dart_scores);
+      match.p2.avg = calculateAverage(match.p2.dart_scores);
       setGameRef(match);
     }
     fetchGameRef();
@@ -18,14 +27,11 @@ export default function EndGameScreen() {
     <section id="end-game-section">
       {gameRef ? (
         <div>
-          <h3>The game has finished</h3>
           <h3>{gameRef.winner} has won the game!</h3>
-          <h4>{gameRef.p1.name}</h4>
-          <p>Sets: {gameRef.p1.sets}</p>
-          <p>Darts: {gameRef.p1.dart_scores.join(", ")}</p>
-          <h4>{gameRef.p2.name}</h4>
-          <p>Sets: {gameRef.p2.sets}</p>
-          <p>Darts: {gameRef.p2.dart_scores.join(", ")}</p>
+          <div id="player-results" className="d-flex">
+            <PlayerEndGameResults player={gameRef.p1} />
+            <PlayerEndGameResults player={gameRef.p2} />
+          </div>
         </div>
       ) : (
         "Nothing here.."
