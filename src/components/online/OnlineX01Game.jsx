@@ -27,10 +27,10 @@ export default function OnlineX01Game() {
   if (loading) return <h2>Loading</h2>;
 
   return (
-    <div className="mt-5">
+    <div className="mt-3">
       {gameRef ? (
         <div className="d-flex flex-column">
-          <div className="d-flex flex-row justify-content-between w-25 m-auto">
+          <div className="d-flex flex-row justify-content-between m-auto player-scores">
             <ScoreScreen gameRef={gameRef} player="p1" />
             <ScoreScreen gameRef={gameRef} player="p2" />
           </div>
