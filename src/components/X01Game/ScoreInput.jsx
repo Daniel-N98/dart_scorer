@@ -44,7 +44,7 @@ export default function ScoreInput({ gameRef }) {
   };
 
   return (
-    <section id="scorer-input-section" style={{ marginTop: "50px" }}>
+    <section id="scorer-input-section" style={{ marginTop: "5px" }}>
       <h3 id="typed-score">{typedScore}</h3>
       <div id="scorer-input">
         {numbers.map((number) => (
