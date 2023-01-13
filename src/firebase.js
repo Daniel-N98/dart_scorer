@@ -154,7 +154,7 @@ export async function getFinishedMatch(matchId) {
   return document;
 }
 
-export async function updatePlayerScore(score, documentId, thrownScore) {
+export async function updatePlayerScore(documentId, thrownScore) {
   const docRef = doc(db, "games", documentId);
   const matchRef = await getMatchFromId(documentId);
   const turn = matchRef.turn;
@@ -163,11 +163,9 @@ export async function updatePlayerScore(score, documentId, thrownScore) {
   await setDoc(
     docRef,
     {
-      [turn]: {
-        score,
+      [matchRef.turn]: {
         dart_scores: dart_scores.concat(thrownScore),
       },
-      turn: turn === "p1" ? "p2" : "p1",
     },
     { merge: true }
   );
@@ -175,7 +173,6 @@ export async function updatePlayerScore(score, documentId, thrownScore) {
 
 export async function updatePlayerDocument(documentId, updateObj) {
   const docRef = doc(db, "games", documentId);
-
   await setDoc(
     docRef,
     {
