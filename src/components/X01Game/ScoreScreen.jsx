@@ -8,7 +8,7 @@ export default function ScoreScreen({ gameRef, player }) {
       : "not-users-turn";
 
   return (
-    <div style={{ height: "170px" }} className={active}>
+    <div style={{ height: "210px" }} className={active}>
       <h3>
         <u>{playerObj.name}</u>
       </h3>
