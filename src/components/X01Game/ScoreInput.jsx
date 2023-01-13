@@ -18,21 +18,12 @@ export default function ScoreInput({ gameRef }) {
   const { turn } = gameRef;
 
   const updateScore = async (input) => {
-    const tempTypedScore = typedScore;
-
-    // Not the users turn
-    if (gameRef[turn].uid !== user.uid) {
-      return;
-    }
-    // Clear score
-    if (input === "Clear") {
+    // Initial score validation
+    if (!validateScore(gameRef, user, input, typedScore) || input === "Clear") {
       setTypedScore("");
       return;
     }
-    // Too many points
-    if (Number(typedScore) > 180) {
-      return;
-    }
+
     // Update typedScore state with digit input
     if (typedScore.length < 3) {
       setTypedScore((typedScore) => typedScore + input);
@@ -41,6 +32,7 @@ export default function ScoreInput({ gameRef }) {
     // Submit score to document
     if (input === "Submit") {
       const remainingScore = gameRef[turn].score - typedScore;
+      const tempTypedScore = typedScore;
       setTypedScore("");
       await handleUpdateScore({
         tempTypedScore,
@@ -67,6 +59,22 @@ export default function ScoreInput({ gameRef }) {
       </div>
     </section>
   );
+}
+
+function validateScore(gameRef, user, typedScore) {
+  const { turn } = gameRef;
+
+  // Not the users turn, false
+  if (gameRef[turn].uid !== user.uid) {
+    return false;
+  }
+  // Too many points, false
+  if (Number(typedScore) > 180) {
+    return false;
+  }
+
+  // Score validated, true
+  return true;
 }
 
 async function handleUpdateScore({
