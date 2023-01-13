@@ -1,5 +1,4 @@
 import { getAuth } from "firebase/auth";
-import { documentId } from "firebase/firestore";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useParams } from "react-router-dom";
