@@ -96,6 +96,7 @@ async function handleUpdateScore({
   // Adds darts score to dart_scores
   await updatePlayerScore(gameID, score);
   const updateObject = {};
+  let setWon = false;
   // Remaining score is valid, leg, set or match has been won.
   if (remainingScore === 0) {
     updateObject.p1 = { score: start_score };
@@ -105,13 +106,14 @@ async function handleUpdateScore({
       // Reset both users legs to 0
       updateObject.p1.legs = 0;
       updateObject.p2.legs = 0;
+      setWon = true;
       updateObject[turn].sets = pSets + 1; // Increase set winners sets by 1
     } else {
       updateObject[turn].legs = pLegs + 1; // Increase leg winners legs by 1
     }
 
     // Player has reached the total number of sets required to win the match
-    if (pSets + 1 === sets) {
+    if (setWon && pSets + 1 === sets) {
       // Add properties required for the end of the match
       updateObject.winner = name;
       updateObject.status = "finished";
