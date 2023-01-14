@@ -11,6 +11,7 @@ export default function X01GameSettings() {
     const start_score = Number(inputs[0].value);
     const sets = Number(inputs[1].value);
     const legs = Number(inputs[2].value);
+    console.log(sets, legs, start_score);
 
     if (!start_score || !sets || !legs) {
       alert("Invalid form");
@@ -29,7 +30,7 @@ export default function X01GameSettings() {
   return (
     <section>
       <h2>Game setup</h2>
-      <form id="x01-game-settings-form">
+      <form id="x01-game-settings-form" className="d-flex flex-column">
         <label>
           Starting score:
           <select id="x01-score-selection" required>
@@ -39,16 +40,36 @@ export default function X01GameSettings() {
             <option value="701">701</option>
           </select>
         </label>
+        <div className="form-group">
+          <label htmlFor="sets">
+            <p>Number of sets</p>
+            <input
+              type="number"
+              className="form-control-sm"
+              id="sets"
+              required
+            />
+          </label>
+        </div>
+        <div className="form-group">
+          <label htmlFor="legs">
+            <p>Number of legs</p>
+            <input
+              type="number"
+              className="form-control-sm"
+              id="legs"
+              required
+            />
+          </label>
+        </div>
         <label>
-          Sets:
-          <input type="number" required />
-        </label>
-        <label>
-          Legs:
-          <input type="number" required />
-        </label>
-        <label>
-          <input type="submit" onClick={(e) => handleClick(e)} />
+          <type
+            type="submit"
+            className="btn btn-primary"
+            onClick={(e) => handleClick(e)}
+          >
+            Submit
+          </type>
         </label>
       </form>
     </section>

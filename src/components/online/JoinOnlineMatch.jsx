@@ -18,7 +18,7 @@ export default function JoinOnlineMatch() {
     <section id="join-online-match">
       <form id="join-code-form">
         <label htmlFor="join-code-input" />
-        <input type="text"></input>
+        <input type="text" placeholder="Enter the join code" />
         <input type="submit" value="Join" onClick={(e) => handleClick(e)} />
       </form>
     </section>
