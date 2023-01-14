@@ -10,9 +10,9 @@ export default function OnlineMatch() {
 
   useEffect(() => {
     async function checkForMatch() {
-      const matchID = await gameExists(user);
-      if (matchID) {
-        document.location.href = `/games/online/${matchID}/waiting`;
+      const { gameID, join_code } = await gameExists(user);
+      if (gameID) {
+        document.location.href = `/games/online/${gameID}/waiting/${join_code}`;
       }
     }
     checkForMatch();
