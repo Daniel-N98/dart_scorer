@@ -2,7 +2,6 @@
 
 * {
   font-family: 'Montserrat';
-  font-size: 22px;
 }
 
 #online-game-screen {
@@ -73,27 +72,24 @@
 
 .checkouts {
   color: red;
-  margin: 10px;
 }
 
 #score-screen-section p {
-  font-size: 26px;
+  font-size: 12px;
   color: red;
+}
+
+#score-section h3 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#score-section p {
+  font-size: 18px;
 }
 
 #score-screen-section div p {
-  font-size: 22px;
   color: whitesmoke;
-}
-#score-screen-section div p span {
-  color: red;
-}
-
-#score-screen-section div {
-  color: whitesmoke;
-  border: 2px solid black;
-  border-radius: 20%;
-  background-color: #5B5B5B;
 }
 
 #typed-score {
@@ -109,7 +105,7 @@
 }
 
 #player-results {
-  width: 50%;
+  width: 40%;
   justify-content: space-evenly;
   margin: 50px auto;
 }
