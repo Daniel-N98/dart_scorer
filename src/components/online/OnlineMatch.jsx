@@ -24,7 +24,7 @@ export default function OnlineMatch() {
     <section id="online-match">
       <h1>Online games</h1>
       {user ? (
-        <div>
+        <div className="d-flex flex-column justify-content-center online-game">
           <CreateOnlineMatch />
           <JoinOnlineMatch />
         </div>

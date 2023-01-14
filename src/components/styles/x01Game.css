@@ -129,3 +129,11 @@
 }
 }
 
+
+.online-game * {
+  margin-top: 5px;
+}
+
+#x01-game-settings-form * {
+  margin: 5px;
+}
