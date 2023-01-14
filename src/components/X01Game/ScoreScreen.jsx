@@ -8,7 +8,7 @@ export default function ScoreScreen({ gameRef, player }) {
       : "not-users-turn";
 
   return (
-    <div style={{ height: "210px" }} className={active}>
+    <div style={{ height: "210px" }} className={active} id="score-section">
       <h3>
         <u>{playerObj.name}</u>
       </h3>
@@ -18,6 +18,9 @@ export default function ScoreScreen({ gameRef, player }) {
         <p>Legs [{playerObj.legs}]</p>
       </div>
       <div>
+        <p>
+          Last score: {playerObj.dart_scores[playerObj.dart_scores.length - 1]}
+        </p>
         {checkouts[playerObj.score] ? (
           <p className="checkouts">{checkouts[playerObj.score].join(", ")}</p>
         ) : (
