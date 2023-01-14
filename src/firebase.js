@@ -69,6 +69,7 @@ export async function createOnlineGame({
   legs = 3,
 }) {
   const user = getAuth().currentUser;
+  const join_code = Math.random().toString(36).substring(2, 7);
   try {
     const docRef = await addDoc(collection(db, "games"), {
       p1: {
@@ -82,12 +83,12 @@ export async function createOnlineGame({
       start_score,
       sets,
       legs,
-      join_code: (Math.random() + 1).toString(36).substring(7),
+      join_code,
       status: "pending",
       turn: "p1",
     });
     console.log("Document writted with ID: ", docRef.id);
-    return docRef.id;
+    return { gameID: docRef.id, join_code };
   } catch (error) {
     console.error("Error adding document: ", error);
   }
@@ -99,7 +100,7 @@ export async function gameExists(user) {
 
   querySnapshot.forEach((doc) => {
     if (doc.data().p1 && doc.data().p1.uid === user.uid) {
-      exists = doc.id;
+      exists = { gameID: doc.id, join_code: doc.data().join_code };
     }
   });
   return exists;

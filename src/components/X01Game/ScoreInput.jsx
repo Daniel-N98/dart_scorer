@@ -19,7 +19,10 @@ export default function ScoreInput({ gameRef }) {
 
   const updateScore = async (input) => {
     // Initial score validation
-    if (!validateScore(gameRef, user, input, typedScore) || input === "Clear") {
+    if (
+      !validateScore(gameRef, user, input, typedScore, setTypedScore) ||
+      input === "Clear"
+    ) {
       setTypedScore("");
       return;
     }

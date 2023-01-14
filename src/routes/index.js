@@ -18,7 +18,7 @@ export default function RoutePaths() {
         <Route path="/games/online/:gameID" element={<OnlineX01Game />} />
         <Route path="/games/online/setup" element={<X01GameSettings />} />
         <Route
-          path="/games/online/:gameID/waiting"
+          path="/games/online/:gameID/waiting/:join_code"
           element={<WaitingForMatch />}
         />
         <Route path="/account" element={<Account />} />
