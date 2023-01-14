@@ -115,9 +115,7 @@
 }
 
 #player-results > * {
-  min-width: 300px;
-  padding: 20px;
-  border: 2px solid rgba(33, 33, 238, 0.836);
+  border: 2px solid black;
   border-radius: 30px;
 }
 
@@ -136,4 +134,9 @@
 
 #x01-game-settings-form * {
   margin: 5px;
+}
+
+#player-results > * {
+  padding: 25px;
+  width: 250px;
 }
