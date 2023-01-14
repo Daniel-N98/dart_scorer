@@ -17,11 +17,13 @@ export default function X01GameSettings() {
       return;
     }
 
-    let gameID = await gameExists(user);
+    let { gameID, join_code } = await gameExists(user);
     if (!gameID) {
-      gameID = await createOnlineGame({ start_score, sets, legs });
+      const createdMatch = await createOnlineGame({ start_score, sets, legs });
+      gameID = createdMatch.gameID;
+      join_code = createdMatch.join_code;
     }
-    document.location.href = `/games/online/${gameID}/waiting`;
+    document.location.href = `/games/online/${gameID}/waiting/${join_code}`;
   };
 
   return (
