@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-// Import components like above, rather than below.
-// import { Button } from "react-bootstrap";
 
 export default function GameTypeList() {
   return (
