@@ -36,7 +36,8 @@ export function registerUser(userEmail, userPassword, displayName) {
   createUserWithEmailAndPassword(getAuth(), userEmail, userPassword)
     .then(() => {
       const user = getAuth().currentUser;
-      updateUserDisplayName(user, displayName).then(() => {
+      updateUserDisplayName(user, displayName).then(async () => {
+        await addBaseStats(user.uid);
         return true;
       });
     })
@@ -45,6 +46,51 @@ export function registerUser(userEmail, userPassword, displayName) {
       return false;
     });
 }
+
+async function addBaseStats(userID) {
+  try {
+    const docRef = await addDoc(collection(db, "user_statistics"), {
+      uid: userID,
+      online_wins: 0,
+      online_losses: 0,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getPlayerStats(userID) {
+  const querySnapshot = await getDocs(collection(db, "user_statistics"));
+  let data = false;
+  querySnapshot.forEach((doc) => {
+    if (doc.data().uid === userID) {
+      data = doc.data();
+    }
+  });
+  return data;
+}
+
+export async function getPlayerOnlineWins(userID) {
+  const stats = getPlayerStats(userID);
+  return stats.online_wins;
+}
+
+export async function getPlayerOnlineLosses(userID) {
+  const stats = getPlayerStats(userID);
+  return stats.online_losses;
+}
+
+// async function updatePlayerWins(documentId, statsObject) {
+//   const docRef = doc(db, "user_statistics", documentId);
+//   await updateDoc(
+//     docRef,
+//     {
+//       ...statsObject,
+//     },
+//     { merge: true }
+//   );
+// }
 
 export async function signInUser(userEmail, userPassword) {
   return signInWithEmailAndPassword(getAuth(), userEmail, userPassword);
@@ -86,8 +132,9 @@ export async function createOnlineGame({
       join_code,
       status: "pending",
       turn: "p1",
+      date: Date.now(),
     });
-    console.log("Document writted with ID: ", docRef.id);
+    console.log("Document written with ID: ", docRef.id);
     return { gameID: docRef.id, join_code };
   } catch (error) {
     console.error("Error adding document: ", error);
