@@ -16,13 +16,15 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
+console.log(process.env.REACT_APP_FIREBASE_API_KEY);
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAxAQ4NHWyEaU6-VSGQyRwKH2RBaTCYsTg",
-  authDomain: "dart-score-v2.firebaseapp.com",
-  projectId: "dart-score-v2",
-  storageBucket: "dart-score-v2.appspot.com",
-  messagingSenderId: "316323012732",
-  appId: "1:316323012732:web:4e790b8779fb35390da9f9",
+  apiKey: process.env.REACT_APP_apiKey,
+  authDomain: process.env.REACT_APP_authDomain,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messageSenderId,
+  appId: process.env.REACT_APP_appId,
 };
 
 const app = initializeApp(firebaseConfig);
