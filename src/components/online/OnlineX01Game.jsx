@@ -40,6 +40,10 @@ export default function OnlineX01Game() {
     const { turn } = gameRef;
     if (gameRef[turn].uid !== user.uid) return;
 
+    if (typedScore > 180) {
+      return;
+    }
+
     async function handleScoreUpdate() {
       await updateScore({
         tempTypedScore: typedScore,
@@ -47,6 +51,7 @@ export default function OnlineX01Game() {
         remainingScore: gameRef[turn].score - typedScore,
         gameID,
       });
+      setTypedScore("");
     }
     handleScoreUpdate();
   }, [typedScore]);

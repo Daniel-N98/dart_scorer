@@ -18,9 +18,6 @@ export default function ScoringInput({ setTypedScore }) {
     if (tempTypedScore.length >= 3) {
       return;
     }
-    if (Number(tempTypedScore + input) > 180) {
-      return;
-    }
     setTempTypedScore((tempTypedScore) => tempTypedScore + input);
   };
 
