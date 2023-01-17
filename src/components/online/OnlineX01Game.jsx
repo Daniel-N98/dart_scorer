@@ -8,7 +8,6 @@ import {
   updatePlayerDocument,
   updatePlayerScore,
 } from "../../firebase";
-// import ScoreInput from "../X01Game/ScoreInput";
 import ScoreScreen from "../X01Game/ScoreScreen";
 import "../styles/x01Game.css";
 import ScoreInput from "../X01Game/ScoreInput";
