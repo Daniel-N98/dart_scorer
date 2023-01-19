@@ -1,5 +1,5 @@
-import Account from "../views/Account";
-import Games from "../views/Games";
-import Home from "../views/Home";
+import Account from "./Account.jsx";
+import Games from "./Games.jsx";
+import Home from "./Home.jsx";
 
-export { Account, Games, Home };
+export { Home, Games, Account };
