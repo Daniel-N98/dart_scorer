@@ -81,7 +81,14 @@ async function updateScore({
 }) {
   const { turn, sets, legs, start_score } = gameRef;
   const { sets: pSets, legs: pLegs, name, dart_scores } = gameRef[turn];
-
+  const { sets: p2Sets, legs: P2legs } = gameRef[turn === "p1" ? "p2" : "p1"];
+  const currentSet = `set${pSets + p2Sets + 1}`;
+  const currentLeg = `leg${pLegs + P2legs + 1}`;
+  console.log(currentSet, currentLeg);
+  let currentScores = false;
+  if (dart_scores[currentSet] && dart_scores[currentSet][currentLeg]) {
+    currentScores = dart_scores[currentSet][currentLeg];
+  }
   // Remaining score is invalid
   if (remainingScore < 0 || remainingScore === 1 || remainingScore === "") {
     return;
@@ -90,7 +97,15 @@ async function updateScore({
   await updateDocument(
     "games",
     gameID,
-    { [turn]: { dart_scores: dart_scores.concat(score) } },
+    {
+      [turn]: {
+        dart_scores: {
+          [currentSet]: {
+            [currentLeg]: currentScores ? [...currentScores, score] : [score],
+          },
+        },
+      },
+    },
     true
   );
   const updateObject = {};

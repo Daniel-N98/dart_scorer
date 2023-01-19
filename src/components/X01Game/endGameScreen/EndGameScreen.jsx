@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFinishedMatch } from "../../firebase/utilFunctions.js";
+import { getFinishedMatch } from "../../../firebase/utilFunctions.js";
 import PlayerEndGameResults from "./PlayerEndGameResults";
 
 export default function EndGameScreen() {
@@ -8,9 +8,7 @@ export default function EndGameScreen() {
   const { gameID } = useParams();
 
   const calculateAverage = (scores) => {
-    return parseFloat(
-      scores.reduce((a, b) => Number(a) + Number(b)) / scores.length
-    ).toFixed(2);
+    Object.keys(scores).reduce((sum, next) => sum + scores[next], 0);
   };
 
   useEffect(() => {
@@ -28,7 +26,7 @@ export default function EndGameScreen() {
       {gameRef ? (
         <div>
           <h3>{gameRef.winner} has won the game!</h3>
-          <div id="player-results" className="d-flex">
+          <div id="player-results" className="d-flex" style={{ width: "100%" }}>
             <PlayerEndGameResults player={gameRef.p1} />
             <PlayerEndGameResults player={gameRef.p2} />
           </div>
