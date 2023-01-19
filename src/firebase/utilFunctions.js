@@ -1,12 +1,4 @@
-import { initializeApp } from "firebase/app";
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import {
-  getFirestore,
   collection,
   addDoc,
   getDocs,
@@ -15,52 +7,7 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
-
-console.log(process.env.REACT_APP_FIREBASE_API_KEY);
-
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_apiKey,
-  authDomain: process.env.REACT_APP_authDomain,
-  projectId: process.env.REACT_APP_projectId,
-  storageBucket: process.env.REACT_APP_storageBucket,
-  messagingSenderId: process.env.REACT_APP_messageSenderId,
-  appId: process.env.REACT_APP_appId,
-};
-
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-
-export function registerUser(userEmail, userPassword, displayName) {
-  if (!validateDisplayName(displayName)) {
-    alert("Username is not valid.");
-    return false;
-  }
-  createUserWithEmailAndPassword(getAuth(), userEmail, userPassword)
-    .then(() => {
-      const user = getAuth().currentUser;
-      updateUserDisplayName(user, displayName).then(async () => {
-        await addBaseStats(user.uid);
-        return true;
-      });
-    })
-    .catch(() => {
-      alert("Failed to register");
-      return false;
-    });
-}
-
-async function addBaseStats(userID) {
-  try {
-    const docRef = await addDoc(collection(db, "user_statistics"), {
-      uid: userID,
-      online_wins: 0,
-      online_losses: 0,
-    });
-    console.log("Document written with ID: ", docRef.id);
-  } catch (error) {
-    console.error(error);
-  }
-}
+import { auth, db } from "./firebase";
 
 export async function getPlayerStats(userID) {
   const querySnapshot = await getDocs(collection(db, "user_statistics"));
@@ -83,40 +30,12 @@ export async function getPlayerOnlineLosses(userID) {
   return stats.online_losses;
 }
 
-// async function updatePlayerWins(documentId, statsObject) {
-//   const docRef = doc(db, "user_statistics", documentId);
-//   await updateDoc(
-//     docRef,
-//     {
-//       ...statsObject,
-//     },
-//     { merge: true }
-//   );
-// }
-
-export async function signInUser(userEmail, userPassword) {
-  return signInWithEmailAndPassword(getAuth(), userEmail, userPassword);
-}
-
-export async function updateUserDisplayName(user, displayName) {
-  await updateProfile(user, {
-    displayName,
-  });
-}
-
-function validateDisplayName(displayName) {
-  if (displayName.length < 6 || displayName.length > 14) return false;
-  if (displayName.indexOf(" ") >= 0) return false;
-  if (/d/.test(displayName)) return false;
-  return true;
-}
-
 export async function createOnlineGame({
   start_score = 301,
   sets = 3,
   legs = 3,
 }) {
-  const user = getAuth().currentUser;
+  const user = auth.currentUser;
   const join_code = Math.random().toString(36).substring(2, 7);
   try {
     const docRef = await addDoc(collection(db, "games"), {
@@ -170,7 +89,7 @@ export async function gameExistsWithCode(joinCode) {
 export default async function updateGameDocument(documentId) {
   const docRef = doc(db, "games", documentId);
   const { start_score } = await getMatchFromId(documentId);
-  const user = getAuth().currentUser;
+  const user = auth.currentUser;
   await updateDoc(docRef, {
     p2: {
       uid: user.uid,
@@ -204,34 +123,6 @@ export async function getFinishedMatch(matchId) {
   return document;
 }
 
-export async function updatePlayerScore(documentId, thrownScore) {
-  const docRef = doc(db, "games", documentId);
-  const matchRef = await getMatchFromId(documentId);
-  const turn = matchRef.turn;
-  const { dart_scores } = matchRef[turn];
-
-  await setDoc(
-    docRef,
-    {
-      [matchRef.turn]: {
-        dart_scores: dart_scores.concat(thrownScore),
-      },
-    },
-    { merge: true }
-  );
-}
-
-export async function updatePlayerDocument(documentId, updateObj) {
-  const docRef = doc(db, "games", documentId);
-  await setDoc(
-    docRef,
-    {
-      ...updateObj,
-    },
-    { merge: true }
-  );
-}
-
 export async function deleteGameDocument(documentID) {
   const docRef = doc(db, "games", documentID);
   try {
@@ -252,4 +143,20 @@ export async function addMatchToCompletedGames(documentID) {
   } catch (error) {
     console.error("Error adding document: ", error);
   }
+}
+
+export async function updateDocument(
+  collection,
+  documentID,
+  updateObject,
+  merge
+) {
+  const docRef = doc(db, collection, documentID);
+  await setDoc(
+    docRef,
+    {
+      ...updateObject,
+    },
+    { merge: merge }
+  );
 }

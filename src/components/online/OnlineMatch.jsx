@@ -1,12 +1,12 @@
-import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { gameExists } from "../../firebase";
+import { gameExists } from "../../firebase/utilFunctions.js";
+import { auth } from "../../firebase/firebase.js";
 import CreateOnlineMatch from "./CreateOnlineMatch";
 import JoinOnlineMatch from "./JoinOnlineMatch";
 
 export default function OnlineMatch() {
-  const [user, loading] = useAuthState(getAuth());
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
     async function checkForMatch() {

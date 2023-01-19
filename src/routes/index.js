@@ -4,9 +4,7 @@ import OnlineX01Game from "../components/online/OnlineX01Game";
 import WaitingForMatch from "../components/online/WaitingForMatch";
 import X01GameSettings from "../components/online/X01GameSettings";
 import EndGameScreen from "../components/X01Game/EndGameScreen";
-import Account from "../views/Account";
-import Games from "../views/Games";
-import Home from "../views/Home";
+import { Home, Games, Account } from "../views/index.js";
 
 export default function RoutePaths() {
   return (

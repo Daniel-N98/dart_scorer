@@ -1,4 +1,6 @@
-import updateGameDocument, { gameExistsWithCode } from "../../firebase";
+import updateGameDocument, {
+  gameExistsWithCode,
+} from "../../firebase/utilFunctions.js";
 
 export default function JoinOnlineMatch() {
   const handleClick = async (e) => {
