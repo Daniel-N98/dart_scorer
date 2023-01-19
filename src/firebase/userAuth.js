@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
@@ -30,7 +31,8 @@ export async function signInUser(userEmail, userPassword) {
 }
 
 export async function signOutUser() {
-  await signOutUser(auth);
+  console.log("signing out");
+  signOut(auth);
 }
 
 export async function updateUserDisplayName(user, displayName) {
