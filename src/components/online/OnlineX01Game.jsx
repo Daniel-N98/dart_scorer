@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 import {
   addMatchToCompletedGames,
   deleteGameDocument,
-  updatePlayerDocument,
-  updatePlayerScore,
+  updateDocument,
 } from "../../firebase/utilFunctions.js";
 import { db, auth } from "../../firebase/firebase.js";
 import ScoreScreen from "../X01Game/ScoreScreen";
@@ -38,7 +37,7 @@ export default function OnlineX01Game() {
     const { turn } = gameRef;
     if (gameRef[turn].uid !== user.uid) return;
 
-    if (typedScore > 180) {
+    if (typedScore > 180 || typedScore === "") {
       return;
     }
 
@@ -81,14 +80,19 @@ async function updateScore({
   gameID,
 }) {
   const { turn, sets, legs, start_score } = gameRef;
-  const { sets: pSets, legs: pLegs, name } = gameRef[turn];
+  const { sets: pSets, legs: pLegs, name, dart_scores } = gameRef[turn];
 
   // Remaining score is invalid
   if (remainingScore < 0 || remainingScore === 1 || remainingScore === "") {
     return;
   }
   // Adds darts score to dart_scores
-  await updatePlayerScore(gameID, score);
+  await updateDocument(
+    "games",
+    gameID,
+    { [turn]: { dart_scores: dart_scores.concat(score) } },
+    true
+  );
   const updateObject = {};
   let setWon = false;
   // Remaining score is valid, leg, set or match has been won.
@@ -122,7 +126,7 @@ async function updateScore({
 }
 
 const sendUpdate = async (updateObject, gameID) => {
-  await updatePlayerDocument(gameID, updateObject);
+  await updateDocument("games", gameID, updateObject, true);
   // Match has been won
   if (updateObject.status === "finished") {
     // Move document to games_finished collection, and delete from games collection

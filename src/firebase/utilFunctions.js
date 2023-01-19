@@ -123,34 +123,6 @@ export async function getFinishedMatch(matchId) {
   return document;
 }
 
-export async function updatePlayerScore(documentId, thrownScore) {
-  const docRef = doc(db, "games", documentId);
-  const matchRef = await getMatchFromId(documentId);
-  const turn = matchRef.turn;
-  const { dart_scores } = matchRef[turn];
-
-  await setDoc(
-    docRef,
-    {
-      [matchRef.turn]: {
-        dart_scores: dart_scores.concat(thrownScore),
-      },
-    },
-    { merge: true }
-  );
-}
-
-export async function updatePlayerDocument(documentId, updateObj) {
-  const docRef = doc(db, "games", documentId);
-  await setDoc(
-    docRef,
-    {
-      ...updateObj,
-    },
-    { merge: true }
-  );
-}
-
 export async function deleteGameDocument(documentID) {
   const docRef = doc(db, "games", documentID);
   try {
@@ -171,4 +143,20 @@ export async function addMatchToCompletedGames(documentID) {
   } catch (error) {
     console.error("Error adding document: ", error);
   }
+}
+
+export async function updateDocument(
+  collection,
+  documentID,
+  updateObject,
+  merge
+) {
+  const docRef = doc(db, collection, documentID);
+  await setDoc(
+    docRef,
+    {
+      ...updateObject,
+    },
+    { merge: merge }
+  );
 }
