@@ -1,10 +1,10 @@
-import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getPlayerStats } from "../../firebase";
+import { auth } from "../../firebase/firebase.js";
+import { getPlayerStats } from "../../firebase/utilFunctions.js";
 
 export default function Profile() {
-  const [user, loading] = useAuthState(getAuth());
+  const [user, loading] = useAuthState(auth);
   const [stats, setStats] = useState({});
   console.log("Profile");
 

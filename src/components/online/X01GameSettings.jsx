@@ -1,9 +1,9 @@
-import { createOnlineGame, gameExists } from "../../firebase";
-import { getAuth } from "firebase/auth";
+import { createOnlineGame, gameExists } from "../../firebase/utilFunctions.js";
+import { auth } from "../../firebase/firebase.js";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function X01GameSettings() {
-  const [user] = useAuthState(getAuth());
+  const [user] = useAuthState(auth);
 
   const handleClick = async (e) => {
     e.preventDefault();

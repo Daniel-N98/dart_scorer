@@ -3,19 +3,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   addMatchToCompletedGames,
-  db,
   deleteGameDocument,
   updatePlayerDocument,
   updatePlayerScore,
-} from "../../firebase";
+} from "../../firebase/utilFunctions.js";
+import { db, auth } from "../../firebase/firebase.js";
 import ScoreScreen from "../X01Game/ScoreScreen";
 import "../styles/x01Game.css";
 import ScoreInput from "../X01Game/ScoreInput";
-import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function OnlineX01Game() {
-  const [user] = useAuthState(getAuth());
+  const [user] = useAuthState(auth);
   const { gameID } = useParams();
   const [gameRef, setGameRef] = useState();
   const [loading, setLoading] = useState(false);

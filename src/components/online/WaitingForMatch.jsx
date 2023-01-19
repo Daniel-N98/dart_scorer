@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db, deleteGameDocument } from "../../firebase";
+import { db } from "../../firebase/firebase.js";
+import { deleteGameDocument } from "../../firebase/utilFunctions.js";
 import { useEffect } from "react";
 
 export default function WaitingForMatch() {

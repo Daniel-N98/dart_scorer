@@ -1,9 +1,9 @@
-import { getAuth, signOut } from "firebase/auth";
-
+import { signOutUser } from "../../firebase/userAuth.js";
+import { auth } from "../../firebase/firebase.js";
 export default function Logout() {
   const handleClick = (e) => {
     e.preventDefault();
-    signOut(getAuth());
+    signOutUser(auth);
   };
 
   return (

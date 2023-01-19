@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFinishedMatch } from "../../firebase";
+import { getFinishedMatch } from "../../firebase/utilFunctions.js";
 import PlayerEndGameResults from "./PlayerEndGameResults";
 
 export default function EndGameScreen() {
