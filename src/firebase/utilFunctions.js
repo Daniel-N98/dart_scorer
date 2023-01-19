@@ -45,7 +45,7 @@ export async function createOnlineGame({
         score: start_score,
         sets: 0,
         legs: 0,
-        dart_scores: [],
+        dart_scores: { set1: { leg1: [] } },
       },
       start_score,
       sets,
@@ -97,7 +97,7 @@ export default async function updateGameDocument(documentId) {
       score: start_score,
       sets: 0,
       legs: 0,
-      dart_scores: [],
+      dart_scores: { set1: { leg1: [] } },
     },
     status: "in-progress",
   });
