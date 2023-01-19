@@ -1,4 +1,4 @@
-import { getAuth } from "firebase/auth";
+import { auth } from "../firebase/firebase.js";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Register from "../components/online/Register.jsx";
 import SignIn from "../components/online/SignIn.jsx";
@@ -6,7 +6,8 @@ import Logout from "../components/online/Logout";
 import Profile from "../components/online/Profile.jsx";
 
 export default function Account() {
-  const [user, loading] = useAuthState(getAuth());
+  const [user, loading] = useAuthState(auth);
+
   if (loading) {
     return <h2>Loading...</h2>;
   }
