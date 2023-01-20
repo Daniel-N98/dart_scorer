@@ -8,6 +8,11 @@ export default function PlayerLegs({ set }) {
             <div key={index}>
               <h3>Leg {index + 1}</h3>
               <p>[{set[leg].join(", ")}]</p>
+              <p>
+                Avg:{" "}
+                {set[leg].reduce((a, b) => Number(a) + Number(b), 0) /
+                  set[leg].length}
+              </p>
             </div>
           );
         })}
