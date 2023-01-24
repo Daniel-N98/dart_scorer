@@ -52,6 +52,7 @@ export async function createOnlineGame({
     legs,
     status: "pending",
     turn: "p1",
+    leg_start: "p1",
     date: Date.now(),
   };
   if (!publicMatch) {
