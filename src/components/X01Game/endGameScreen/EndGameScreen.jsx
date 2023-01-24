@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFinishedMatch } from "../../../firebase/utilFunctions.js";
+import {
+  getDocumentById,
+  getFinishedMatch,
+} from "../../../firebase/utilFunctions.js";
 import PlayerEndGameResults from "./PlayerEndGameResults";
 
 export default function EndGameScreen() {
@@ -13,7 +16,7 @@ export default function EndGameScreen() {
 
   useEffect(() => {
     async function fetchGameRef() {
-      const match = await getFinishedMatch(gameID, "completed_games");
+      const match = await getDocumentById("completed_games", gameID, "gameID");
       match.p1.avg = calculateAverage(match.p1.dart_scores);
       match.p2.avg = calculateAverage(match.p2.dart_scores);
       setGameRef(match);

@@ -75,8 +75,11 @@ export async function gameExists(user) {
   let exists = false;
 
   querySnapshot.forEach((doc) => {
-    if (doc.data().p1 && doc.data().p1.uid === user.uid) {
-      exists = { gameID: doc.id, join_code: doc.data().join_code };
+    if (doc.data()) {
+      const { p1, p2 } = doc.data();
+      if ((p1 && p1.uid === user.uid) || (p2 && p2.uid === user.uid)) {
+        exists = { gameID: doc.id, join_code: doc.data().join_code };
+      }
     }
   });
   return exists;
@@ -94,13 +97,32 @@ export async function gameExistsWithCode(joinCode) {
   return exists;
 }
 
+export async function getDocumentById(
+  collectionName,
+  documentID,
+  idIsProperty
+) {
+  const querySnapshot = await getDocs(collection(db, collectionName));
+  let document = null;
+  querySnapshot.forEach((doc) => {
+    if (idIsProperty) {
+      if (doc.data() && doc.data()[idIsProperty] === documentID)
+        document = doc.data();
+    } else {
+      if (doc.id === documentID) document = doc.data();
+    }
+  });
+
+  return document;
+}
+
 export default async function updateGameDocument(documentId) {
   const docRef = doc(db, "games", documentId);
-  const matchObj = await getMatchFromId(documentId);
+  const matchObj = await getDocumentById("games", documentId);
   if (!matchObj || (matchObj.p1 && matchObj.p2)) {
     return false;
   }
-  const { start_score } = await getMatchFromId(documentId);
+  const { start_score } = matchObj;
   const user = auth.currentUser;
   await updateDoc(docRef, {
     p2: {
@@ -116,26 +138,6 @@ export default async function updateGameDocument(documentId) {
   return true;
 }
 
-export async function getMatchFromId(matchId) {
-  const querySnapshot = await getDocs(collection(db, "games"));
-  let document = null;
-  querySnapshot.forEach((doc) => {
-    if (doc.id === matchId) document = doc.data();
-  });
-
-  return document;
-}
-
-export async function getFinishedMatch(matchId) {
-  const querySnapshot = await getDocs(collection(db, "completed_games"));
-  let document = null;
-  querySnapshot.forEach((doc) => {
-    if (doc.data().gameID === matchId) document = doc.data();
-  });
-
-  return document;
-}
-
 export async function deleteGameDocument(documentID) {
   const docRef = doc(db, "games", documentID);
   try {
@@ -146,8 +148,8 @@ export async function deleteGameDocument(documentID) {
   }
 }
 
-export async function addMatchToCompletedGames(documentID) {
-  const matchRef = await getMatchFromId(documentID);
+export async function addMatchToCompletedGames(documentId) {
+  const matchRef = await getDocumentById("games", documentId);
   try {
     const docRef = await addDoc(collection(db, "completed_games"), {
       ...matchRef,
