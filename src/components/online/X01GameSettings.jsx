@@ -1,6 +1,7 @@
 import { createOnlineGame, gameExists } from "../../firebase/utilFunctions.js";
 import { auth } from "../../firebase/firebase.js";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Form from "react-bootstrap/Form";
 
 export default function X01GameSettings() {
   const [user] = useAuthState(auth);
@@ -36,8 +37,8 @@ export default function X01GameSettings() {
   return (
     <section>
       <h2>Game setup</h2>
-      <form id="x01-game-settings-form" className="d-flex flex-column">
-        <label>
+      <Form id="x01-game-settings-form" className="d-flex flex-column">
+        <Form.Label>
           Starting score:
           <select id="x01-score-selection" required>
             <option value="201">201</option>
@@ -45,7 +46,7 @@ export default function X01GameSettings() {
             <option value="501">501</option>
             <option value="701">701</option>
           </select>
-        </label>
+        </Form.Label>
         <div className="form-group">
           <label htmlFor="sets">
             <p>Number of sets</p>
@@ -68,20 +69,20 @@ export default function X01GameSettings() {
             />
           </label>
         </div>
-        <label htmlFor="public-checkbox">
-          Tick for public
-          <input type="checkbox" id="public-checkbox" />
-        </label>
+        <Form.Check
+          type="switch"
+          id="custom-switch"
+          label="Public match"
+          className="m-auto"
+        />
         <label>
-          <type
+          <input
             type="submit"
             className="btn btn-primary"
             onClick={(e) => handleClick(e)}
-          >
-            Submit
-          </type>
+          />
         </label>
-      </form>
+      </Form>
     </section>
   );
 }
