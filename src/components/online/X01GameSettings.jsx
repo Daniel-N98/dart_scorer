@@ -11,20 +11,26 @@ export default function X01GameSettings() {
     const start_score = Number(inputs[0].value);
     const sets = Number(inputs[1].value);
     const legs = Number(inputs[2].value);
-    console.log(sets, legs, start_score);
-
+    const publicMatch = inputs[3].checked;
     if (!start_score || !sets || !legs) {
       alert("Invalid form");
       return;
     }
 
-    let { gameID, join_code } = await gameExists(user);
+    let { gameID, join_code } = (await gameExists(user)) || {};
     if (!gameID) {
-      const createdMatch = await createOnlineGame({ start_score, sets, legs });
+      const createdMatch = await createOnlineGame({
+        start_score,
+        sets,
+        legs,
+        publicMatch,
+      });
       gameID = createdMatch.gameID;
       join_code = createdMatch.join_code;
     }
-    document.location.href = `/games/online/${gameID}/waiting/${join_code}`;
+    document.location.href = `/games/online/${gameID}/waiting/${
+      publicMatch ? "public" : join_code
+    }`;
   };
 
   return (
@@ -62,6 +68,10 @@ export default function X01GameSettings() {
             />
           </label>
         </div>
+        <label htmlFor="public-checkbox">
+          Tick for public
+          <input type="checkbox" id="public-checkbox" />
+        </label>
         <label>
           <type
             type="submit"
