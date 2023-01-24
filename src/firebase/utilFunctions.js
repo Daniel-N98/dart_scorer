@@ -75,8 +75,11 @@ export async function gameExists(user) {
   let exists = false;
 
   querySnapshot.forEach((doc) => {
-    if (doc.data().p1 && doc.data().p1.uid === user.uid) {
-      exists = { gameID: doc.id, join_code: doc.data().join_code };
+    if (doc.data()) {
+      const { p1, p2 } = doc.data();
+      if ((p1 && p1.uid === user.uid) || (p2 && p2.uid === user.uid)) {
+        exists = { gameID: doc.id, join_code: doc.data().join_code };
+      }
     }
   });
   return exists;
