@@ -33,11 +33,14 @@ export default function OnlineX01Game() {
   }, [gameID]);
 
   useEffect(() => {
-    if (!gameRef) return;
-    const { turn } = gameRef;
-    if (gameRef[turn].uid !== user.uid) return;
+    const { turn } = gameRef || {};
+    if (!gameRef || gameRef[turn].uid !== user.uid) {
+      setTypedScore("");
+      return;
+    }
 
     if (typedScore > 180 || typedScore === "") {
+      setTypedScore("");
       return;
     }
 
