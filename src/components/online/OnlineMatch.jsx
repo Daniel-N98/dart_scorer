@@ -4,15 +4,18 @@ import { gameExists } from "../../firebase/utilFunctions.js";
 import { auth } from "../../firebase/firebase.js";
 import CreateOnlineMatch from "./CreateOnlineMatch";
 import JoinOnlineMatch from "./JoinOnlineMatch";
+import ViewOnlineMatches from "./ViewOnlineMatches.jsx";
 
 export default function OnlineMatch() {
   const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
     async function checkForMatch() {
-      const { gameID, join_code } = await gameExists(user);
+      const { gameID, join_code } = (await gameExists(user)) || {};
       if (gameID) {
-        document.location.href = `/games/online/${gameID}/waiting/${join_code}`;
+        document.location.href = `/games/online/${gameID}/waiting/${
+          join_code ? join_code : "public"
+        }`;
       }
     }
     checkForMatch();
@@ -27,6 +30,7 @@ export default function OnlineMatch() {
         <div className="d-flex flex-column justify-content-center online-game">
           <CreateOnlineMatch />
           <JoinOnlineMatch />
+          <ViewOnlineMatches />
         </div>
       ) : (
         <h3>You must be signed in to play online matches.</h3>

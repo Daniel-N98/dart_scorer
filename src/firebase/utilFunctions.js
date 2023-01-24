@@ -34,26 +34,32 @@ export async function createOnlineGame({
   start_score = 301,
   sets = 3,
   legs = 3,
+  publicMatch,
 }) {
   const user = auth.currentUser;
   const join_code = Math.random().toString(36).substring(2, 7);
+  const doc = {
+    p1: {
+      uid: user.uid,
+      name: user.displayName,
+      score: start_score,
+      sets: 0,
+      legs: 0,
+      dart_scores: { set1: { leg1: [] } },
+    },
+    start_score,
+    sets,
+    legs,
+    status: "pending",
+    turn: "p1",
+    date: Date.now(),
+  };
+  if (!publicMatch) {
+    doc.join_code = join_code;
+  }
   try {
     const docRef = await addDoc(collection(db, "games"), {
-      p1: {
-        uid: user.uid,
-        name: user.displayName,
-        score: start_score,
-        sets: 0,
-        legs: 0,
-        dart_scores: { set1: { leg1: [] } },
-      },
-      start_score,
-      sets,
-      legs,
-      join_code,
-      status: "pending",
-      turn: "p1",
-      date: Date.now(),
+      ...doc,
     });
     console.log("Document written with ID: ", docRef.id);
     return { gameID: docRef.id, join_code };
@@ -63,6 +69,7 @@ export async function createOnlineGame({
 }
 
 export async function gameExists(user) {
+  if (!user) return;
   const querySnapshot = await getDocs(collection(db, "games"));
   let exists = false;
 
@@ -88,6 +95,10 @@ export async function gameExistsWithCode(joinCode) {
 
 export default async function updateGameDocument(documentId) {
   const docRef = doc(db, "games", documentId);
+  const matchObj = await getMatchFromId(documentId);
+  if (!matchObj || (matchObj.p1 && matchObj.p2)) {
+    return false;
+  }
   const { start_score } = await getMatchFromId(documentId);
   const user = auth.currentUser;
   await updateDoc(docRef, {
@@ -101,6 +112,7 @@ export default async function updateGameDocument(documentId) {
     },
     status: "in-progress",
   });
+  return true;
 }
 
 export async function getMatchFromId(matchId) {
@@ -159,4 +171,17 @@ export async function updateDocument(
     },
     { merge: merge }
   );
+}
+
+export async function getPublicMatches() {
+  const querySnapshot = await getDocs(collection(db, "games"));
+  let documents = [];
+  querySnapshot.forEach((doc) => {
+    if (!doc.data().join_code && doc.data().status === "pending") {
+      const matchObject = doc.data();
+      matchObject.gameID = doc.id;
+      documents.push(matchObject);
+    }
+  });
+  return documents;
 }
