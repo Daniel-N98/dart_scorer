@@ -40,48 +40,42 @@ export default function X01GameSettings() {
       <Form id="x01-game-settings-form" className="d-flex flex-column">
         <Form.Label>
           Starting score:
-          <select id="x01-score-selection" required>
+          <Form.Select
+            id="x01-score-selection"
+            className="m-auto"
+            required
+            style={{ width: "230px" }}
+          >
             <option value="201">201</option>
             <option value="301">301</option>
             <option value="501">501</option>
             <option value="701">701</option>
-          </select>
+          </Form.Select>
         </Form.Label>
         <div className="form-group">
-          <label htmlFor="sets">
-            <p>Number of sets</p>
-            <input
-              type="number"
-              className="form-control-sm"
-              id="sets"
-              required
-            />
-          </label>
+          <Form.Label htmlFor="sets">
+            Number of sets:
+            <Form.Control type="number" id="sets" />
+          </Form.Label>
         </div>
         <div className="form-group">
-          <label htmlFor="legs">
-            <p>Number of legs</p>
-            <input
-              type="number"
-              className="form-control-sm"
-              id="legs"
-              required
-            />
-          </label>
+          <Form.Label htmlFor="legs">
+            Number of legs:
+            <Form.Control type="number" id="legs" />
+          </Form.Label>
         </div>
-        <Form.Check
-          type="switch"
-          id="custom-switch"
-          label="Public match"
-          className="m-auto"
-        />
-        <label>
-          <input
+        <Form.Label htmlFor="custom-switch">
+          Public match
+          <Form.Check type="switch" id="custom-switch" className="p-0" />
+        </Form.Label>
+        <Form.Label>
+          <Form.Control
             type="submit"
             className="btn btn-primary"
+            style={{ width: "230px" }}
             onClick={(e) => handleClick(e)}
           />
-        </label>
+        </Form.Label>
       </Form>
     </section>
   );
