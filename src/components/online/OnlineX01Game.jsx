@@ -79,12 +79,11 @@ async function updateScore({
   remainingScore,
   gameID,
 }) {
-  const { turn, sets, legs, start_score } = gameRef;
+  const { turn, sets, legs, start_score, leg_start } = gameRef;
   const { sets: pSets, legs: pLegs, name, dart_scores } = gameRef[turn];
   const { sets: p2Sets, legs: P2legs } = gameRef[turn === "p1" ? "p2" : "p1"];
   const currentSet = `set${pSets + p2Sets + 1}`;
   const currentLeg = `leg${pLegs + P2legs + 1}`;
-  console.log(currentSet, currentLeg);
   let currentScores = false;
   if (dart_scores[currentSet] && dart_scores[currentSet][currentLeg]) {
     currentScores = dart_scores[currentSet][currentLeg];
@@ -114,6 +113,8 @@ async function updateScore({
   if (remainingScore === 0) {
     updateObject.p1 = { score: start_score };
     updateObject.p2 = { score: start_score };
+    updateObject.leg_start = leg_start === "p1" ? "p2" : "p1";
+    updateObject.turn = updateObject.leg_start;
     // Player has reached the total number of legs in the set
     if (pLegs + 1 === legs) {
       // Reset both users legs to 0
@@ -135,8 +136,8 @@ async function updateScore({
   } else {
     // Update players score to the remaining score.
     updateObject[turn] = { score: remainingScore };
+    updateObject.turn = turn === "p1" ? "p2" : "p1";
   }
-  updateObject.turn = turn === "p1" ? "p2" : "p1";
   await sendUpdate(updateObject, gameID); // Update the players score within the match document
 }
 
