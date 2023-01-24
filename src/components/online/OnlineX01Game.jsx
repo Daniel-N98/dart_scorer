@@ -113,11 +113,7 @@ async function updateScore({
   if (remainingScore === 0) {
     updateObject.p1 = { score: start_score };
     updateObject.p2 = { score: start_score };
-    if (leg_start === "p1") {
-      updateObject.leg_start = "p2";
-    } else {
-      updateObject.leg_start = "p1";
-    }
+    updateObject.leg_start = leg_start === "p1" ? "p2" : "p1";
     updateObject.turn = updateObject.leg_start;
     // Player has reached the total number of legs in the set
     if (pLegs + 1 === legs) {
