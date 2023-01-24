@@ -66,7 +66,6 @@ export default function OnlineX01Game() {
             <ScoreScreen gameRef={gameRef} player="p1" />
             <ScoreScreen gameRef={gameRef} player="p2" />
           </div>
-          {/* <ScoreInput gameRef={gameRef} /> */}
           <ScoreInput setTypedScore={setTypedScore} />
         </div>
       ) : (
