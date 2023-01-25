@@ -11,6 +11,7 @@ import ScoreScreen from "../X01Game/ScoreScreen";
 import "../styles/x01Game.css";
 import ScoreInput from "../X01Game/ScoreInput";
 import { useAuthState } from "react-firebase-hooks/auth";
+import checkouts from "../../checkouts.js";
 
 export default function OnlineX01Game() {
   const [user] = useAuthState(auth);
@@ -39,7 +40,11 @@ export default function OnlineX01Game() {
       return;
     }
 
-    if (typedScore > 180 || typedScore === "") {
+    if (
+      typedScore > 180 ||
+      typedScore === "" ||
+      !Object.keys(checkouts).includes(typedScore)
+    ) {
       setTypedScore("");
       return;
     }
