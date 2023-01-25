@@ -21,12 +21,12 @@ export async function getPlayerStats(userID) {
 }
 
 export async function getPlayerOnlineWins(userID) {
-  const stats = getPlayerStats(userID);
+  const stats = await getPlayerStats(userID);
   return stats.online_wins;
 }
 
 export async function getPlayerOnlineLosses(userID) {
-  const stats = getPlayerStats(userID);
+  const stats = await getPlayerStats(userID);
   return stats.online_losses;
 }
 
@@ -158,6 +158,51 @@ export async function addMatchToCompletedGames(documentId) {
   } catch (error) {
     console.error("Error adding document: ", error);
   }
+}
+
+export async function getDocumentIdByPropertyValue(
+  collectionName,
+  property,
+  value
+) {
+  const querySnapshot = await getDocs(collection(db, collectionName));
+  let documentId = null;
+  querySnapshot.forEach((doc) => {
+    if (doc.data() && doc.data().hasOwnProperty(property)) {
+      if (doc.data()[property] === value) {
+        documentId = doc.id;
+      }
+    }
+  });
+  return documentId;
+}
+
+export async function updatePlayerWinsLosses({ winnerUid, loserUid }) {
+  const winnerWins = await getPlayerOnlineWins(winnerUid);
+  const winnerStatDocId = await getDocumentIdByPropertyValue(
+    "user_statistics",
+    "uid",
+    winnerUid
+  );
+  const loserLosses = await getPlayerOnlineLosses(loserUid);
+  const loserStatDocId = await getDocumentIdByPropertyValue(
+    "user_statistics",
+    "uid",
+    loserUid
+  );
+
+  await updateDocument(
+    "user_statistics",
+    winnerStatDocId,
+    { online_wins: winnerWins + 1 },
+    true
+  );
+  await updateDocument(
+    "user_statistics",
+    loserStatDocId,
+    { online_losses: loserLosses + 1 },
+    true
+  );
 }
 
 export async function updateDocument(
