@@ -11,6 +11,7 @@ import ScoreScreen from "../X01Game/ScoreScreen";
 import "../styles/x01Game.css";
 import ScoreInput from "../X01Game/ScoreInput";
 import { useAuthState } from "react-firebase-hooks/auth";
+import checkouts from "../../checkouts.js";
 
 export default function OnlineX01Game() {
   const [user] = useAuthState(auth);
@@ -92,6 +93,9 @@ async function updateScore({
   }
   // Remaining score is invalid
   if (remainingScore < 0 || remainingScore === 1 || remainingScore === "") {
+    return;
+  }
+  if (remainingScore === 0 && !Object.keys(checkouts).includes(score)) {
     return;
   }
   // Adds darts score to dart_scores
