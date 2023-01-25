@@ -7,11 +7,11 @@ import PublicOnlineMatchPreview from "./PublicOnlineMatchPreview";
 export default function ViewOnlineMatches() {
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   function monitorGames() {
     setIsLoading(true);
     const q = query(collection(db, "games"), where("status", "==", "pending"));
     const unsub = onSnapshot(q, (snap) => {
-      console.log("change");
       const games = [];
       snap.forEach((doc) => {
         if (!doc.data().join_code) {
