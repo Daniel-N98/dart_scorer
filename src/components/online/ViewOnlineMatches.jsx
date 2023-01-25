@@ -1,20 +1,30 @@
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getPublicMatches } from "../../firebase/utilFunctions";
+import { db } from "../../firebase/firebase";
 import PublicOnlineMatchPreview from "./PublicOnlineMatchPreview";
 
 export default function ViewOnlineMatches() {
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  function monitorGames() {
+    setIsLoading(true);
+    const q = query(collection(db, "games"), where("status", "==", "pending"));
+    const unsub = onSnapshot(q, (snap) => {
+      console.log("change");
+      const games = [];
+      snap.forEach((doc) => {
+        if (!doc.data().join_code) {
+          games.push(doc.data());
+        }
+      });
+      setMatches(games);
+      setIsLoading(false);
+    });
+  }
 
   useEffect(() => {
-    setIsLoading(true);
-    async function getOnlineMatches() {
-      const matches = await getPublicMatches();
-      setMatches(matches);
-    }
-    getOnlineMatches();
-    setIsLoading(false);
+    monitorGames();
   }, []);
 
   if (isLoading) return <h2>Loading...</h2>;
