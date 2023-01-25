@@ -40,11 +40,7 @@ export default function OnlineX01Game() {
       return;
     }
 
-    if (
-      typedScore > 180 ||
-      typedScore === "" ||
-      !Object.keys(checkouts).includes(typedScore)
-    ) {
+    if (typedScore > 180 || typedScore === "") {
       setTypedScore("");
       return;
     }
@@ -97,6 +93,9 @@ async function updateScore({
   }
   // Remaining score is invalid
   if (remainingScore < 0 || remainingScore === 1 || remainingScore === "") {
+    return;
+  }
+  if (remainingScore === 0 && !Object.keys(checkouts).includes(score)) {
     return;
   }
   // Adds darts score to dart_scores
