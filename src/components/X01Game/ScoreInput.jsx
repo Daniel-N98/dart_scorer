@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
 
 const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, "Clear", 0, "Submit"];
 
@@ -26,13 +27,15 @@ export default function ScoringInput({ setTypedScore }) {
       <h3 id="typed-score">{tempTypedScore}</h3>
       <div id="scorer-input">
         {numbers.map((number) => (
-          <button
+          <Button
+            size="lg"
             className="number-grid-input"
+            variant="dark"
             key={number}
             onClick={() => updateScore(number)}
           >
             {number}
-          </button>
+          </Button>
         ))}
       </div>
     </section>

@@ -7,7 +7,7 @@ export default function Navigation() {
   const [user] = useAuthState(getAuth());
 
   return (
-    <section id="navigation-section">
+    <section id="navigation-section" className="d-flex justify-content-center ">
       <Link to="/" className="nav-link">
         Home
       </Link>

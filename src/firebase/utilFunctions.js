@@ -62,7 +62,6 @@ export async function createOnlineGame({
     const docRef = await addDoc(collection(db, "games"), {
       ...doc,
     });
-    console.log("Document written with ID: ", docRef.id);
     return { gameID: docRef.id, join_code };
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -117,13 +116,13 @@ export async function getDocumentById(
 }
 
 export default async function updateGameDocument(documentId) {
-  const docRef = doc(db, "games", documentId);
   const matchObj = await getDocumentById("games", documentId);
   if (!matchObj || (matchObj.p1 && matchObj.p2)) {
     return false;
   }
   const { start_score } = matchObj;
   const user = auth.currentUser;
+  const docRef = doc(db, "games", documentId);
   await updateDoc(docRef, {
     p2: {
       uid: user.uid,
@@ -151,10 +150,9 @@ export async function deleteGameDocument(documentID) {
 export async function addMatchToCompletedGames(documentId) {
   const matchRef = await getDocumentById("games", documentId);
   try {
-    const docRef = await addDoc(collection(db, "completed_games"), {
+    await addDoc(collection(db, "completed_games"), {
       ...matchRef,
     });
-    console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error("Error adding document: ", error);
   }

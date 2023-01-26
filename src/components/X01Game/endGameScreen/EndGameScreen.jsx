@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   getDocumentById,
@@ -57,13 +57,17 @@ export default function EndGameScreen() {
   return (
     <section id="end-game-section">
       {gameRef ? (
-        <div>
+        <React.Fragment>
           <h3>{gameRef.winner} has won the game!</h3>
-          <div id="player-results" className="d-flex" style={{ width: "100%" }}>
+          <div
+            id="player-results"
+            className="d-flex flex-column align-items-center gap-4"
+            style={{ width: "100%" }}
+          >
             <PlayerEndGameResults player={gameRef.p1} />
             <PlayerEndGameResults player={gameRef.p2} />
           </div>
-        </div>
+        </React.Fragment>
       ) : (
         "Nothing here.."
       )}

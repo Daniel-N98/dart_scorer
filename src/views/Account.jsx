@@ -21,7 +21,7 @@ export default function Account() {
           <Logout />
         </div>
       ) : (
-        <div>
+        <div className="d-flex flex-column gap-5">
           <Register />
           <SignIn />
         </div>

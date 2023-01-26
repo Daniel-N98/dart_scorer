@@ -29,13 +29,7 @@
 }
 
 .number-grid-input {
-  color: whitesmoke;
-  font-weight: bold;
-  font-size: 18px;
-  background-color: #5B5B5B;
-  width: 140px;
   height: 80px;
-  border-radius: 8px;
 }
 
 @media (hover: hover) {
@@ -104,11 +98,6 @@
   margin-top: 50px;
 }
 
-#player-results {
-  width: 40%;
-  justify-content: space-evenly;
-  margin: 50px auto;
-}
 
 #player-results > * {
   border: 2px solid black;
@@ -130,9 +119,4 @@
 
 #x01-game-settings-form * {
   margin: 5px;
-}
-
-#player-results > * {
-  padding: 25px;
-  width: 250px;
 }

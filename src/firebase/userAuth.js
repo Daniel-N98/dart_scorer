@@ -9,7 +9,6 @@ import { auth, db } from "./firebase";
 
 export function registerUser(userEmail, userPassword, displayName) {
   if (!validateDisplayName(displayName)) {
-    alert("Username is not valid.");
     return false;
   }
   createUserWithEmailAndPassword(auth, userEmail, userPassword)
@@ -31,7 +30,6 @@ export async function signInUser(userEmail, userPassword) {
 }
 
 export async function signOutUser() {
-  console.log("signing out");
   signOut(auth);
 }
 
@@ -50,13 +48,12 @@ function validateDisplayName(displayName) {
 
 async function addBaseStats(userID) {
   try {
-    const docRef = await addDoc(collection(db, "user_statistics"), {
+    await addDoc(collection(db, "user_statistics"), {
       uid: userID,
       online_wins: 0,
       online_losses: 0,
     });
-    console.log("Document written with ID: ", docRef.id);
   } catch (error) {
-    console.error(error);
+    alert("Failed to add statistics");
   }
 }

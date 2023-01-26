@@ -1,3 +1,5 @@
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import { signInUser } from "../../firebase/userAuth.js";
 
 export default function SignIn() {
@@ -15,14 +17,25 @@ export default function SignIn() {
 
   return (
     <section id="sign-in-page">
-      <form id="sign-in-page-form">
+      <Form id="sign-in-page-form">
         <h3>Sign In</h3>
-        <label htmlFor="email">Email</label>
-        <input type="email" />
-        <label htmlFor="password">Password</label>
-        <input type="password" />
-        <input type="submit" onClick={(e) => handleClick(e)} />
-      </form>
+        <Form.Label htmlFor="email">
+          Email
+          <Form.Control type="email" />
+        </Form.Label>
+        <Form.Label htmlFor="password">
+          Password
+          <Form.Control type="password" />
+        </Form.Label>
+        <Button
+          type="submit"
+          variant="dark"
+          className="d-block m-auto"
+          onClick={(e) => handleClick(e)}
+        >
+          Sign in
+        </Button>
+      </Form>
     </section>
   );
 }
