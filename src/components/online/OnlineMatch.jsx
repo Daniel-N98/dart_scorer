@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { gameExists } from "../../firebase/utilFunctions.js";
-import { auth } from "../../firebase/firebase.js";
 import CreateOnlineMatch from "./CreateOnlineMatch";
 import JoinOnlineMatch from "./JoinOnlineMatch";
 import ViewOnlineMatches from "./ViewOnlineMatches.jsx";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext.jsx";
 
 export default function OnlineMatch() {
-  const [user, loading] = useAuthState(auth);
+  const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     async function checkForMatch() {
-      const { gameID, join_code } = (await gameExists(user)) || {};
+      const { gameID, join_code } = (await gameExists(currentUser)) || {};
       if (gameID) {
         document.location.href = `/games/online/${gameID}/waiting/${
           join_code ? join_code : "public"
@@ -21,12 +21,10 @@ export default function OnlineMatch() {
     checkForMatch();
   });
 
-  if (loading) return <h2>Loading</h2>;
-
   return (
     <section id="online-match">
       <h1>Online games</h1>
-      {user ? (
+      {currentUser ? (
         <div className="d-flex flex-column justify-content-center online-game">
           <CreateOnlineMatch />
           <JoinOnlineMatch />
