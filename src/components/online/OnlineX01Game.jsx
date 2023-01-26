@@ -6,15 +6,16 @@ import {
   deleteGameDocument,
   updateDocument,
 } from "../../firebase/utilFunctions.js";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { db, auth } from "../../firebase/firebase.js";
+import { db } from "../../firebase/firebase.js";
 import ScoreScreen from "../X01Game/ScoreScreen";
 import ScoreInput from "../X01Game/ScoreInput";
 import "./x01Game.css";
 import checkouts from "../../checkouts.js";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext.jsx";
 
 export default function OnlineX01Game() {
-  const [user] = useAuthState(auth);
+  const { currentUser } = useContext(UserContext);
   const { gameID } = useParams();
   const [gameRef, setGameRef] = useState();
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ export default function OnlineX01Game() {
 
   useEffect(() => {
     const { turn } = gameRef || {};
-    if (!gameRef || gameRef[turn].uid !== user.uid) {
+    if (!gameRef || gameRef[turn].uid !== currentUser.uid) {
       setTypedScore("");
       return;
     }

@@ -1,20 +1,16 @@
-import { auth } from "../firebase/firebase.js";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Register from "../components/auth/Register.jsx";
 import SignIn from "../components/auth/SignIn.jsx";
 import Logout from "../components/auth/Logout.jsx";
 import Profile from "../components/auth/Profile.jsx";
+import { UserContext } from "../contexts/UserContext.jsx";
+import { useContext } from "react";
 
 export default function Account() {
-  const [user, loading] = useAuthState(auth);
-
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+  const { currentUser } = useContext(UserContext);
 
   return (
     <section id="account-page">
-      {user ? (
+      {currentUser ? (
         <div>
           <h2>Profile</h2>
           <Profile />

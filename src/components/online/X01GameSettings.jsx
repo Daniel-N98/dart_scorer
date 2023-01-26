@@ -1,10 +1,10 @@
 import { createOnlineGame, gameExists } from "../../firebase/utilFunctions.js";
-import { auth } from "../../firebase/firebase.js";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Form from "react-bootstrap/Form";
+import { UserContext } from "../../contexts/UserContext.jsx";
+import { useContext } from "react";
 
 export default function X01GameSettings() {
-  const [user] = useAuthState(auth);
+  const { currentUser } = useContext(UserContext);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ export default function X01GameSettings() {
       return;
     }
 
-    let { gameID, join_code } = (await gameExists(user)) || {};
+    let { gameID, join_code } = (await gameExists(currentUser)) || {};
     if (!gameID) {
       const createdMatch = await createOnlineGame({
         start_score,

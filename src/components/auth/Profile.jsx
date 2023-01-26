@@ -1,25 +1,23 @@
+import { useContext } from "react";
 import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/firebase.js";
 import { getPlayerStats } from "../../firebase/utilFunctions.js";
+import { UserContext } from "../../contexts/UserContext.jsx";
 
 export default function Profile() {
-  const [user, loading] = useAuthState(auth);
+  const { currentUser } = useContext(UserContext);
   const [stats, setStats] = useState({});
 
   useEffect(() => {
     async function getStatistics() {
-      const stats = await getPlayerStats(user.uid);
+      const stats = await getPlayerStats(currentUser.uid);
       setStats(stats);
     }
     getStatistics();
-  }, [user]);
-
-  if (loading) return <h2>Loading</h2>;
+  }, [currentUser]);
 
   return (
     <section id="user-profile">
-      <p>Display name: {user.displayName}</p>
+      <p>Display name: {currentUser.displayName}</p>
       <p>Wins: {stats.online_wins}</p>
       <p>Losses: {stats.online_losses}</p>
       <p>

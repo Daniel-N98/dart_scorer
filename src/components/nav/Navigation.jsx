@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { getAuth } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import "./navigation.css";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function Navigation() {
-  const [user] = useAuthState(getAuth());
+  const { currentUser } = useContext(UserContext);
 
   return (
     <section id="navigation-section" className="d-flex justify-content-center ">
@@ -15,7 +15,7 @@ export default function Navigation() {
         Games
       </Link>
       <Link to="/account" className="nav-link">
-        {user ? "Account" : "Register/Sign-in"}
+        {currentUser ? "Account" : "Register/Sign-in"}
       </Link>
     </section>
   );
