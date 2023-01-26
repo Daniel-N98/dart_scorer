@@ -15,7 +15,8 @@ export default function ViewOnlineMatches() {
       const games = [];
       snap.forEach((doc) => {
         if (!doc.data().join_code) {
-          games.push(doc.data());
+          const data = { ...doc.data(), gameID: doc.id };
+          games.push(data);
         }
       });
       setMatches(games);
