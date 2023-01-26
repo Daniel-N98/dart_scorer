@@ -27,13 +27,13 @@ export default function X01GameSettings() {
         start_score: Number(start_score.value),
         sets: Number(sets.value),
         legs: Number(legs.value),
-        publicMatch,
+        publicMatch: publicMatch.checked,
       });
       gameID = createdMatch.gameID;
       join_code = createdMatch.join_code;
     }
     document.location.href = `/games/online/${gameID}/waiting/${
-      publicMatch ? "public" : join_code
+      publicMatch.checked ? "public" : join_code
     }`;
   };
 
