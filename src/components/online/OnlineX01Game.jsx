@@ -6,11 +6,11 @@ import {
   deleteGameDocument,
   updateDocument,
 } from "../../firebase/utilFunctions.js";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth } from "../../firebase/firebase.js";
 import ScoreScreen from "../X01Game/ScoreScreen";
-import "../styles/x01Game.css";
 import ScoreInput from "../X01Game/ScoreInput";
-import { useAuthState } from "react-firebase-hooks/auth";
+import "./x01Game.css";
 import checkouts from "../../checkouts.js";
 
 export default function OnlineX01Game() {

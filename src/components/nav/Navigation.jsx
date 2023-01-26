@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import "./styles/navigation.css";
+import "./navigation.css";
 
 export default function Navigation() {
   const [user] = useAuthState(getAuth());
