@@ -10,8 +10,10 @@ export default function WaitingForMatch() {
 
   const watchDocument = (gameID) => {
     const unsub = onSnapshot(doc(db, "games", gameID), (doc) => {
-      if (doc.data().p2) {
+      if (doc.data() && doc.data().p2) {
         document.location.href = `/games/online/${gameID}`;
+        unsub();
+      } else {
         unsub();
       }
     });

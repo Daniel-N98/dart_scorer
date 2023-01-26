@@ -8,22 +8,25 @@ export default function X01GameSettings() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const inputs = document.getElementById("x01-game-settings-form").elements;
-    const start_score = Number(inputs["x01-score-selection"].value);
-    const sets = Number(inputs.sets.value);
-    const legs = Number(inputs.legs.value);
-    const publicMatch = inputs["custom-switch"].checked;
-    if (!start_score || !sets || !legs) {
+    const inputs = document.getElementById("x01-game-settings-form");
+    const {
+      0: start_score,
+      1: sets,
+      2: legs,
+      3: publicMatch,
+    } = inputs.elements;
+    if (!start_score.value || !sets.value || !legs.value) {
       showInvalidInputEntry(inputs);
       return;
     }
 
     let { gameID, join_code } = (await gameExists(currentUser)) || {};
+
     if (!gameID) {
       const createdMatch = await createOnlineGame({
-        start_score,
-        sets,
-        legs,
+        start_score: Number(start_score.value),
+        sets: Number(sets.value),
+        legs: Number(legs.value),
         publicMatch,
       });
       gameID = createdMatch.gameID;
