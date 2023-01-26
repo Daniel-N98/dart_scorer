@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import ForgotPassword from "../components/auth/ForgotPassword";
 import OnlineMatch from "../components/online/OnlineMatch";
 import OnlineX01Game from "../components/online/OnlineX01Game";
 import WaitingForMatch from "../components/online/WaitingForMatch";
@@ -20,6 +21,7 @@ export default function RoutePaths() {
           element={<WaitingForMatch />}
         />
         <Route path="/account" element={<Account />} />
+        <Route path="/account/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/games/online/:gameID/finished"
           element={<EndGameScreen />}

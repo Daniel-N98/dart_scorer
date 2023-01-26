@@ -1,6 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { signInUser } from "../../firebase/userAuth.js";
+import { Link } from "react-router-dom";
 
 export default function SignIn() {
   const handleClick = (e) => {
@@ -35,6 +36,9 @@ export default function SignIn() {
         >
           Sign in
         </Button>
+        <Link to="/account/forgot-password" className="nav-link m-auto">
+          Forgot password?
+        </Link>
       </Form>
     </section>
   );
