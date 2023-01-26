@@ -13,8 +13,6 @@ export default function WaitingForMatch() {
       if (doc.data() && doc.data().p2) {
         document.location.href = `/games/online/${gameID}`;
         unsub();
-      } else {
-        unsub();
       }
     });
   };
