@@ -1,5 +1,5 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { db } from "../../firebase/firebase";
 import PublicOnlineMatchPreview from "./PublicOnlineMatchPreview";
@@ -33,11 +33,11 @@ export default function ViewOnlineMatches() {
   return (
     <section id="online-games-list">
       {matches.length > 0 ? (
-        <div>
+        <React.Fragment>
           {matches.map((match) => {
             return <PublicOnlineMatchPreview match={match} key={match.date} />;
           })}
-        </div>
+        </React.Fragment>
       ) : (
         <h2>There are currently no public matches.</h2>
       )}

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import updateGameDocument from "../../firebase/utilFunctions";
 
 export default function PublicOnlineMatchPreview({ match }) {
@@ -15,18 +17,24 @@ export default function PublicOnlineMatchPreview({ match }) {
   }
 
   return (
-    <section>
+    <Card style={{ width: "400px" }} className="m-auto border-dark p-3 mt-4">
       {isAvailable ? (
-        <div>
+        <React.Fragment>
           <h2>Player: {p1.name}</h2>
-          <div>
+          <React.Fragment>
             <p>Start score: {start_score}</p>
             <p>Sets: {sets}</p>
             <p>Legs: {legs}</p>
-          </div>
-          <button onClick={handleClick}>Join this game</button>
-        </div>
+          </React.Fragment>
+          <Button
+            variant="primary"
+            className="w-75 m-auto"
+            onClick={handleClick}
+          >
+            Join this game
+          </Button>
+        </React.Fragment>
       ) : null}
-    </section>
+    </Card>
   );
 }

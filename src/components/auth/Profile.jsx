@@ -6,7 +6,6 @@ import { getPlayerStats } from "../../firebase/utilFunctions.js";
 export default function Profile() {
   const [user, loading] = useAuthState(auth);
   const [stats, setStats] = useState({});
-  console.log("Profile");
 
   useEffect(() => {
     async function getStatistics() {
@@ -25,7 +24,11 @@ export default function Profile() {
       <p>Losses: {stats.online_losses}</p>
       <p>
         Win rate:{" "}
-        {(stats.online_wins / (stats.online_wins + stats.online_losses)) * 100}%
+        {(
+          (stats.online_wins / (stats.online_wins + stats.online_losses)) *
+          100
+        ).toFixed(2)}
+        %
       </p>
     </section>
   );

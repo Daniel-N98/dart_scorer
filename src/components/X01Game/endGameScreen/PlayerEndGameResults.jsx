@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 import PlayerSets from "./PlayerSets";
 
 export default function PlayerEndGameResults({ player }) {

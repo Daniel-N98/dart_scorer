@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { registerUser } from "../../firebase/userAuth.js";
 
 export default function Register() {
@@ -16,17 +18,30 @@ export default function Register() {
   };
 
   return (
-    <section id="register-page">
-      <form id="register-page-form">
+    <section id="register-page" className="m-5">
+      <Form id="register-page-form">
         <h3>Register</h3>
-        <label htmlFor="email">Email</label>
-        <input type="email" />
-        <label htmlFor="password">Password</label>
-        <input type="password" />
-        <label htmlFor="username">Username</label>
-        <input type="text" />
-        <input type="submit" onClick={(e) => handleClick(e)} />
-      </form>
+        <Form.Label htmlFor="email">
+          Email
+          <Form.Control type="email" />
+        </Form.Label>
+        <Form.Label htmlFor="username">
+          Username
+          <Form.Control type="text" />
+        </Form.Label>
+        <Form.Label htmlFor="password">
+          Password
+          <Form.Control type="password" />
+        </Form.Label>
+        <Button
+          type="submit"
+          className="d-block m-auto"
+          variant="dark"
+          onClick={(e) => handleClick(e)}
+        >
+          Register
+        </Button>
+      </Form>
     </section>
   );
 }

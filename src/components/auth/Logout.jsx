@@ -1,3 +1,4 @@
+import Button from "react-bootstrap/Button";
 import { signOutUser } from "../../firebase/userAuth.js";
 
 export default function Logout() {
@@ -7,8 +8,8 @@ export default function Logout() {
   };
 
   return (
-    <button id="logout-btn" onClick={(e) => handleClick(e)}>
+    <Button id="logout-btn" variant="danger" onClick={(e) => handleClick(e)}>
       Sign out
-    </button>
+    </Button>
   );
 }
