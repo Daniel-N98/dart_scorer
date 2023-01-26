@@ -9,12 +9,12 @@ export default function X01GameSettings() {
   const handleClick = async (e) => {
     e.preventDefault();
     const inputs = document.getElementById("x01-game-settings-form").elements;
-    const start_score = Number(inputs[0].value);
-    const sets = Number(inputs[1].value);
-    const legs = Number(inputs[2].value);
-    const publicMatch = inputs[3].checked;
+    const start_score = Number(inputs["x01-score-selection"].value);
+    const sets = Number(inputs.sets.value);
+    const legs = Number(inputs.legs.value);
+    const publicMatch = inputs["custom-switch"].checked;
     if (!start_score || !sets || !legs) {
-      alert("Invalid form");
+      showInvalidInputEntry(inputs);
       return;
     }
 
@@ -79,4 +79,14 @@ export default function X01GameSettings() {
       </Form>
     </section>
   );
+}
+
+function showInvalidInputEntry(inputs) {
+  const { sets, legs } = inputs;
+  if (!sets.value) {
+    document.querySelector(`#sets`).placeholder = "Please enter a value*";
+  }
+  if (!legs.value) {
+    document.querySelector("#legs").placeholder = "Please enter a value*";
+  }
 }
