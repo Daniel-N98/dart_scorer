@@ -13,6 +13,7 @@ import "./x01Game.css";
 import checkouts from "../../checkouts.js";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext.jsx";
+import { Button } from "react-bootstrap";
 
 export default function OnlineX01Game() {
   const { currentUser } = useContext(UserContext);
@@ -58,6 +59,17 @@ export default function OnlineX01Game() {
     handleScoreUpdate();
   }, [typedScore]);
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      await addMatchToCompletedGames(gameID);
+      await deleteGameDocument(gameID);
+    } catch (error) {
+      console.error("Unable to complete request", error);
+      return;
+    }
+  };
+
   if (loading) return <h2>Loading</h2>;
 
   return (
@@ -69,6 +81,14 @@ export default function OnlineX01Game() {
             <ScoreScreen gameRef={gameRef} player="p2" />
           </div>
           <ScoreInput setTypedScore={setTypedScore} />
+          <Button
+            type="submit"
+            variant="dark"
+            className="d-block mt-5 m-auto"
+            onClick={(e) => handleClick(e)}
+          >
+            Leave game
+          </Button>
         </div>
       ) : (
         <h2>Loading</h2>
