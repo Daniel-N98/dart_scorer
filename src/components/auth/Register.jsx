@@ -31,7 +31,7 @@ export default function Register() {
         </Form.Label>
         <Form.Label htmlFor="password">
           Password
-          <Form.Control type="password" />
+          <Form.Control type="password" autoComplete="off" />
         </Form.Label>
         <Button
           type="submit"

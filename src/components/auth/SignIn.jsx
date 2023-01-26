@@ -21,11 +21,11 @@ export default function SignIn() {
         <h3>Sign In</h3>
         <Form.Label htmlFor="email">
           Email
-          <Form.Control type="email" />
+          <Form.Control type="email" autoComplete="on" />
         </Form.Label>
         <Form.Label htmlFor="password">
           Password
-          <Form.Control type="password" />
+          <Form.Control type="password" autoComplete="on" />
         </Form.Label>
         <Button
           type="submit"
