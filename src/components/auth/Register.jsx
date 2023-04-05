@@ -9,8 +9,8 @@ export default function Register() {
     if (
       registerUser(
         formElements[0].value,
-        formElements[1].value,
-        formElements[2].value
+        formElements[2].value,
+        formElements[1].value
       )
     ) {
       window.location.href = "/";
